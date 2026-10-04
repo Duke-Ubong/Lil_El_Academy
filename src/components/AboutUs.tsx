@@ -1,119 +1,164 @@
 import React from "react";
-import { Check, ArrowRight, ShieldCheck, HeartHandshake, Sparkles, BookOpen } from "lucide-react";
+import { ArrowRight, Compass, ShieldCheck, HeartHandshake, Users, Sparkles } from "lucide-react";
+import { motion, type Variants } from "motion/react";
+
+const pillars = [
+  {
+    icon: Users,
+    title: "Small Groups (Max 6)",
+    description: "Every child is heard and coached actively in an intimate setting where questions are always welcomed.",
+  },
+  {
+    icon: Compass,
+    title: "Christian Ethos",
+    description: "Biblical truth and godly character integrated naturally into learning, reinforcing family morals.",
+  },
+  {
+    icon: Sparkles,
+    title: "Targeted Growth",
+    description: "Diagnostic baselines identify knowledge gaps early, building true subject mastery and confidence.",
+  },
+  {
+    icon: HeartHandshake,
+    title: "Parent Partnership",
+    description: "Bi-weekly diagnostic reports and transparent roadmaps ensure you are always in the loop.",
+  },
+];
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
 
 export default function AboutUs() {
-  const objectives = [
-    {
-      title: "Deliver Personalized Education",
-      description: "Tailoring instruction to each child’s learning style, closing specific knowledge gaps so they thrive academically.",
-    },
-    {
-      title: "Develop Lifelong Learners",
-      description: "Cultivating genuine curiosity, intellectual resilience, and critical thinking that extends far beyond exams.",
-    },
-    {
-      title: "Foster Christian Values",
-      description: "Integrating biblical principles and godly character into learning, reinforcing family morals and spiritual grounding.",
-    },
-    {
-      title: "Collaborate with Parents",
-      description: "Working as a unified team with families, providing bi-weekly updates and clear development roadmaps.",
-    },
-    {
-      title: "Promote Academic Excellence",
-      description: "Guiding learners to conquer key milestones—from Phonics and Year 6 SATs to peak GCSE grades 7–9.",
-    },
-    {
-      title: "Foster Engaging Small Groups",
-      description: "Capping live online cohorts at 6 students so every child receives direct attention and participates actively.",
-    },
-    {
-      title: "Ensure Accessibility & Affordability",
-      description: "Making premium Christian supplementary schooling accessible to families without prohibitive private school fees.",
-    },
-  ];
-
   return (
-    <section id="about" className="py-16 sm:py-20 bg-white border-b border-stone-200">
+    <section id="about" className="py-16 sm:py-24 bg-white border-b border-stone-200 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Top Two-Column Overview (King's InterHigh Style) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start mb-16">
-          
-          <div className="lg:col-span-5 space-y-4">
-            <div className="text-xs font-bold uppercase tracking-wider text-[#7B182B]">
-              About Lil-El Academy
+        {/* Section Header with Scroll Reveal */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start mb-16"
+        >
+          <div className="lg:col-span-5 space-y-3">
+            <div className="text-xs font-bold uppercase tracking-wider text-[#9B111E]">
+              Our Foundation & Ethos
             </div>
-            <h2 className="font-heading text-2xl sm:text-4xl font-bold text-stone-900 leading-tight">
-              An Online Christian Supplementary School
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-stone-900 leading-tight">
+              Inspiring True Potential Through Faith & Wisdom
             </h2>
-            <p className="text-stone-600 text-sm sm:text-base leading-relaxed">
-              We provide quality online supplementary tuition in <strong className="text-stone-900">Maths, English, Science</strong>, and a foundational <strong className="text-stone-900">Christian worldview</strong> for children from Key Stage 1 through Key Stage 4.
+            <p className="text-stone-600 text-sm sm:text-base leading-relaxed pt-1">
+              Lil-El Academy was founded to bridge the gap between mainstream classroom pressures and individual child potential. We provide structured online supplementary tuition for Key Stages 1 to 4 in <strong className="text-stone-900 font-semibold">Mathematics, English, Science</strong>, and a foundational <strong className="text-stone-900 font-semibold">Christian worldview</strong>.
             </p>
           </div>
 
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            
-            {/* Vision */}
-            <div className="p-6 rounded-2xl bg-stone-50 border border-stone-200/80 space-y-2.5">
-              <div className="text-xs font-bold uppercase tracking-wider text-[#7B182B]">Our Vision</div>
-              <h3 className="font-heading text-lg font-bold text-stone-900">Faith, Wisdom & Excellence</h3>
+            {/* Vision Card with Hover Elevation */}
+            <motion.div
+              whileHover={{ y: -5, transition: { duration: 0.25 } }}
+              className="p-7 rounded-2xl bg-stone-50/80 border border-stone-200/80 hover:border-[#9B111E]/30 hover:shadow-sm transition-all duration-300 space-y-2 group"
+            >
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#9B111E] group-hover:text-[#B3192B] transition-colors">
+                Our Vision
+              </span>
+              <h3 className="font-heading text-lg font-bold text-stone-900">
+                Faith, Wisdom & Excellence
+              </h3>
               <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
                 To be a leading online supplementary school that nurtures confident, knowledgeable, and faith-driven individuals equipped to impact their world positively.
               </p>
-            </div>
+            </motion.div>
 
-            {/* Mission */}
-            <div className="p-6 rounded-2xl bg-stone-50 border border-stone-200/80 space-y-2.5">
-              <div className="text-xs font-bold uppercase tracking-wider text-[#163A24]">Our Mission</div>
-              <h3 className="font-heading text-lg font-bold text-stone-900">Inspiring True Potential</h3>
+            {/* Mission Card with Hover Elevation */}
+            <motion.div
+              whileHover={{ y: -5, transition: { duration: 0.25 } }}
+              className="p-7 rounded-2xl bg-stone-50/80 border border-stone-200/80 hover:border-emerald-700/30 hover:shadow-sm transition-all duration-300 space-y-2 group"
+            >
+              <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-800 transition-colors">
+                Our Mission
+              </span>
+              <h3 className="font-heading text-lg font-bold text-stone-900">
+                Unlocking True Potential
+              </h3>
               <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
                 To provide high-quality supplementary education rooted in Christian values, unlocking each student’s potential and inspiring academic and personal brilliance.
               </p>
-            </div>
-
+            </motion.div>
           </div>
+        </motion.div>
 
-        </div>
-
-        {/* The 7 Core Objectives Grid */}
-        <div className="space-y-6">
-          <div className="border-b border-stone-200 pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-            <div>
-              <h3 className="font-heading text-xl font-bold text-stone-900">
-                Our 7 Core Educational Objectives
-              </h3>
-              <p className="text-xs text-stone-600">
-                The foundational commitments guiding every lesson, teacher, and child development roadmap.
-              </p>
-            </div>
+        {/* 4 Core Pillars Grid with Staggered Scroll Entrance */}
+        <div className="pt-2">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.5 }}
+            className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-stone-100 pb-3"
+          >
+            <h3 className="text-sm font-bold uppercase tracking-wider text-stone-900">
+              The Four Commitments of Lil-El Academy
+            </h3>
             <a
-              href="#inquiry-form"
-              className="text-xs font-semibold text-[#7B182B] hover:underline inline-flex items-center gap-1"
+              href="#admissions"
+              className="text-xs font-semibold text-[#9B111E] hover:text-[#B3192B] inline-flex items-center gap-1 group"
             >
-              <span>Speak to our academic advisor</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <span>See how the admission process works</span>
+              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
             </a>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {objectives.map((obj, idx) => (
-              <div
-                key={idx}
-                className="p-5 rounded-xl border border-stone-200 hover:border-stone-300 hover:shadow-xs transition-all bg-white"
-              >
-                <div className="text-xs font-mono font-bold text-[#7B182B] mb-2">
-                  0{idx + 1}
-                </div>
-                <h4 className="font-semibold text-stone-900 text-sm mb-1.5">
-                  {obj.title}
-                </h4>
-                <p className="text-xs text-stone-600 leading-relaxed">
-                  {obj.description}
-                </p>
-              </div>
-            ))}
-          </div>
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          >
+            {pillars.map((pillar, idx) => {
+              const Icon = pillar.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  variants={cardVariants}
+                  whileHover={{ y: -6, transition: { duration: 0.25 } }}
+                  className="p-6 rounded-2xl bg-stone-50/40 border border-stone-200/80 hover:border-[#9B111E]/40 hover:bg-white hover:shadow-lg transition-all duration-300 space-y-3 group cursor-default"
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 3 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                    className="w-10 h-10 rounded-xl bg-white border border-stone-200 text-[#9B111E] group-hover:border-[#9B111E]/20 group-hover:bg-[#9B111E]/5 flex items-center justify-center transition-colors shadow-2xs"
+                  >
+                    <Icon className="w-5 h-5" />
+                  </motion.div>
+                  <h4 className="font-semibold text-stone-900 text-base group-hover:text-[#9B111E] transition-colors">
+                    {pillar.title}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+                    {pillar.description}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </motion.div>
         </div>
 
       </div>

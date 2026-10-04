@@ -1,156 +1,156 @@
 import React from "react";
-import { Check, X, Users, HeartHandshake, Shield, Banknote, ArrowRight } from "lucide-react";
+import { Users, HeartHandshake, ShieldCheck, Check, X } from "lucide-react";
+import { motion } from "motion/react";
 
 export default function WhyUs() {
-  const pillars = [
-    {
-      title: "Capped Cohorts (Maximum 6)",
-      desc: "In classes of 30, quiet students get overlooked. Our maximum ratio of 1:6 ensures every pupil contributes and receives tailored instruction.",
-    },
-    {
-      title: "Christian Worldview & Character",
-      desc: "We cultivate humility, resilience, and godly character alongside academic excellence, reinforcing the principles you teach at home.",
-    },
-    {
-      title: "Bespoke Development Plans",
-      desc: "Every child is evaluated to create an individualized 12-week roadmap targeting specific subject blindspots.",
-    },
-    {
-      title: "Active Parent Partnership",
-      desc: "Bi-weekly diagnostic reports and direct communication keep you informed of your child's progress at every step.",
-    },
-    {
-      title: "Exam Board Precision",
-      desc: "Instruction aligned precisely to AQA, Edexcel, and OCR requirements so students master the exact mark scheme criteria.",
-    },
-    {
-      title: "Accessible & Fair Fees",
-      desc: "Premium supplementary education priced fairly without hidden administrative fees or long contracts.",
-    },
-  ];
-
   const comparison = [
     {
-      feature: "Cohort Class Size",
-      mainstream: "28 to 34 students per room",
+      feature: "Class Size",
+      mainstream: "28 to 34 students per classroom",
       lilel: "Strictly capped at 6 students",
     },
     {
       feature: "Student Participation",
-      mainstream: "Easily overlooked or passive",
-      lilel: "Active answering & live coaching each session",
+      mainstream: "Passive listening; quiet pupils get missed",
+      lilel: "Direct coaching & active contribution each lesson",
     },
     {
-      feature: "Christian Values & Ethos",
-      mainstream: "Secular, varied curriculum standards",
-      lilel: "Biblical values & godly mentorship",
+      feature: "Ethos & Character",
+      mainstream: "Secular, varied moral perspectives",
+      lilel: "Biblical truth & Christian character mentorship",
     },
     {
-      feature: "Parent Updates",
-      mainstream: "Termly or annual report cards",
-      lilel: "Bi-weekly diagnostic feedback reports",
+      feature: "Parent Communication",
+      mainstream: "Termly or once-yearly parents' evening",
+      lilel: "Bi-weekly diagnostic progress updates",
     },
     {
       feature: "Exam Preparation",
       mainstream: "Broad-brush teaching to the middle",
-      lilel: "Targeted mark-scheme precision & past papers",
+      lilel: "Targeted mark-scheme precision & past paper drills",
     },
   ];
 
   return (
-    <section id="why-us" className="py-16 sm:py-20 bg-stone-50 border-b border-stone-200">
+    <section id="why-us" className="py-16 sm:py-24 bg-[#FAF9F6] border-b border-stone-200 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="max-w-3xl mb-12">
-          <div className="text-xs font-bold uppercase tracking-wider text-[#7B182B] mb-2">
-            Why Choose Lil-El Academy
+        {/* Header with Scroll InView */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="max-w-3xl mb-12"
+        >
+          <div className="text-xs font-bold uppercase tracking-wider text-[#9B111E] mb-2">
+            The Lil-El Distinction
           </div>
           <h2 className="font-heading text-3xl sm:text-4xl font-bold text-stone-900 tracking-tight">
-            The Right Environment for Your Child to Thrive
+            Designed Around How Children Actually Learn
           </h2>
           <p className="mt-3 text-sm sm:text-base text-stone-600 leading-relaxed">
-            Mainstream schools face crowded classrooms and tight time constraints. Lil-El Academy complements your child's schooling with personalized attention, faith-centered encouragement, and measurable progress.
+            Mainstream classrooms are under heavy pressure with large pupil numbers. Lil-El Academy provides the personalized attention, faith-centered encouragement, and diagnostic precision your child needs to flourish.
           </p>
-        </div>
+        </motion.div>
 
-        {/* 6 Core Pillars Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          {pillars.map((pillar, idx) => (
-            <div
-              key={idx}
-              className="p-6 rounded-2xl bg-white border border-stone-200/90 shadow-2xs space-y-2.5"
-            >
-              <div className="w-8 h-8 rounded-lg bg-[#3B0710]/5 text-[#3B0710] font-mono font-bold text-xs flex items-center justify-center">
-                0{idx + 1}
-              </div>
-              <h3 className="font-semibold text-stone-900 text-base">
-                {pillar.title}
-              </h3>
-              <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
-                {pillar.desc}
-              </p>
+        {/* 3 Key Pillars with Staggered Scroll Animations */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.45, delay: 0.05 }}
+            whileHover={{ y: -6, transition: { duration: 0.25 } }}
+            className="p-7 rounded-2xl bg-white border border-stone-200/90 shadow-2xs hover:shadow-lg transition-all duration-300 space-y-3 cursor-default"
+          >
+            <div className="w-10 h-10 rounded-xl bg-[#9B111E]/10 text-[#9B111E] flex items-center justify-center font-bold text-sm">
+              01
             </div>
-          ))}
-        </div>
-
-        {/* Clean Side-by-Side Comparison Table (King's InterHigh Style) */}
-        <div className="bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-xs">
-          <div className="p-6 border-b border-stone-200 bg-stone-50/70">
-            <h3 className="font-heading text-lg font-bold text-stone-900">
-              How Lil-El Compares to Mainstream Classrooms
+            <h3 className="font-semibold text-stone-900 text-lg">
+              Intimate 1:6 Cohorts
             </h3>
-            <p className="text-xs text-stone-600 mt-0.5">
-              A clear look at how supplementary tuition resolves mainstream school shortcomings.
+            <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+              Quiet students can easily hide in a class of 30. Our maximum ratio of 1:6 guarantees every child contributes and receives personalized feedback in every lesson.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs sm:text-sm border-collapse">
-              <thead>
-                <tr className="border-b border-stone-200 text-stone-500 bg-stone-50/40 text-xs uppercase tracking-wider font-semibold">
-                  <th className="py-3.5 px-6 font-semibold">Educational Aspect</th>
-                  <th className="py-3.5 px-6 font-semibold">Crowded Mainstream School</th>
-                  <th className="py-3.5 px-6 font-semibold text-[#3B0710] bg-[#3B0710]/5">Lil-El Academy Supplementary</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-stone-100">
-                {comparison.map((row, idx) => (
-                  <tr key={idx} className="hover:bg-stone-50/50 transition-colors">
-                    <td className="py-4 px-6 font-medium text-stone-900">
-                      {row.feature}
-                    </td>
-                    <td className="py-4 px-6 text-stone-500">
-                      <div className="flex items-center gap-2">
-                        <X className="w-4 h-4 text-rose-500 shrink-0" />
-                        <span>{row.mainstream}</span>
-                      </div>
-                    </td>
-                    <td className="py-4 px-6 text-stone-900 font-medium bg-[#3B0710]/5">
-                      <div className="flex items-center gap-2">
-                        <Check className="w-4 h-4 text-emerald-800 shrink-0" />
-                        <span>{row.lilel}</span>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.45, delay: 0.15 }}
+            whileHover={{ y: -6, transition: { duration: 0.25 } }}
+            className="p-7 rounded-2xl bg-white border border-stone-200/90 shadow-2xs hover:shadow-lg transition-all duration-300 space-y-3 cursor-default"
+          >
+            <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-800 flex items-center justify-center font-bold text-sm">
+              02
+            </div>
+            <h3 className="font-semibold text-stone-900 text-lg">
+              Christian Values & Mentorship
+            </h3>
+            <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+              We cultivate humility, integrity, and godly character alongside academic excellence, reinforcing the spiritual foundation you build at home.
+            </p>
+          </motion.div>
 
-          <div className="p-5 border-t border-stone-100 bg-stone-50/50 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-            <span className="text-stone-600">
-              Experience the difference with a free baseline assessment.
-            </span>
-            <a
-              href="#inquiry-form"
-              className="font-semibold text-[#3B0710] hover:underline inline-flex items-center gap-1"
-            >
-              <span>Book your diagnostic consultation</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </a>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.45, delay: 0.25 }}
+            whileHover={{ y: -6, transition: { duration: 0.25 } }}
+            className="p-7 rounded-2xl bg-white border border-stone-200/90 shadow-2xs hover:shadow-lg transition-all duration-300 space-y-3 cursor-default"
+          >
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center font-bold text-sm">
+              03
+            </div>
+            <h3 className="font-semibold text-stone-900 text-lg">
+              Bi-Weekly Parent Reports
+            </h3>
+            <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+              No guessing where your child stands. Regular diagnostic updates show exact curriculum mastery, practice goals, and milestones achieved.
+            </p>
+          </motion.div>
         </div>
+
+        {/* Clean Side-by-Side Comparison Table with Scroll Entrance */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.6 }}
+          className="bg-white rounded-2xl border border-stone-200/90 overflow-hidden shadow-xs hover:shadow-md transition-shadow"
+        >
+          <div className="p-6 border-b border-stone-200/80 bg-stone-50/70">
+            <h3 className="font-heading text-lg font-bold text-stone-900">
+              Lil-El Academy vs. Mainstream Large Classes
+            </h3>
+          </div>
+
+          <div className="divide-y divide-stone-100 text-xs sm:text-sm">
+            {comparison.map((item, idx) => (
+              <motion.div
+                key={idx}
+                whileHover={{ backgroundColor: "rgba(250, 249, 246, 0.85)" }}
+                transition={{ duration: 0.15 }}
+                className="grid grid-cols-1 md:grid-cols-12 p-4 sm:p-5 gap-2 md:gap-4 items-center transition-colors"
+              >
+                <div className="md:col-span-4 font-semibold text-stone-900">
+                  {item.feature}
+                </div>
+                <div className="md:col-span-4 text-stone-500 flex items-center gap-2">
+                  <X className="w-4 h-4 text-rose-500 shrink-0 hidden sm:inline" />
+                  <span>{item.mainstream}</span>
+                </div>
+                <div className="md:col-span-4 text-stone-900 font-medium flex items-center gap-2 text-emerald-950">
+                  <Check className="w-4 h-4 text-emerald-700 shrink-0" />
+                  <span>{item.lilel}</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
       </div>
     </section>

@@ -1,5 +1,33 @@
 [
   {
+    "id": "LE-910404",
+    "date": "04/10/2026, 20:41:50",
+    "parentName": "Dr. Eleanor Vance",
+    "childName": "Thomas Vance",
+    "keyStage": "KS4 - Year 10 (Ages 14-15)",
+    "subject": "GCSE Higher Mathematics",
+    "email": "eleanor.vance@example.co.uk",
+    "phone": "07700900123",
+    "message": "Interested in Year 10 diagnostic",
+    "emailDispatched": false,
+    "emailStatus": "app_password_required",
+    "diagnosticNotice": "Google SMTP requires a 16-character App Password (from https://myaccount.google.com/apppasswords) rather than your standard account password."
+  },
+  {
+    "id": "LE-642004",
+    "date": "04/10/2026, 20:04:02",
+    "parentName": "Test Parent",
+    "childName": "Test Student",
+    "keyStage": "KS4 - Year 10 (Early Intervention)",
+    "subject": "Mathematics Only",
+    "email": "parent@example.com",
+    "phone": "+44 7123 456789",
+    "message": "Testing diagnostic request",
+    "emailDispatched": false,
+    "emailStatus": "app_password_required",
+    "diagnosticNotice": "Google SMTP requires a 16-character App Password (from https://myaccount.google.com/apppasswords) rather than your standard account password."
+  },
+  {
     "id": "LE-335379",
     "date": "20/09/2026, 04:02:15",
     "parentName": "Test Parent",

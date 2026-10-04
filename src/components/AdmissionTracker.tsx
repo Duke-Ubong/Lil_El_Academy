@@ -1,123 +1,177 @@
-import React from "react";
-import { Send, PhoneCall, Search, FileCheck, Users, Rocket, Clock, ArrowRight } from "lucide-react";
+import React, { useState } from "react";
+import { Clock, CheckCircle2, ArrowRight, PhoneCall, Sparkles, Send, Users } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 
 interface Step {
   step: string;
-  time: string;
+  timeframe: string;
   title: string;
-  description: string;
-  action: string;
+  summary: string;
+  details: string;
+  icon: typeof Send;
 }
 
 const steps: Step[] = [
   {
     step: "01",
-    time: "Day 1",
+    timeframe: "Day 1 • Immediate",
     title: "Inquiry Submission",
-    description: "Submit our short parent form with your child's Year group and learning priorities.",
-    action: "Instant reference code generated",
+    summary: "Complete our simple parent inquiry form with your child's stage and key subjects.",
+    details: "An instant unique reference ID is generated. Our admissions team immediately reviews your child's academic requirements.",
+    icon: Send,
   },
   {
     step: "02",
-    time: "Within 24 Hours",
-    title: "Discovery Phone Call",
-    description: "Our academic advisor calls for a friendly 15-minute consultation about your targets.",
-    action: "Schedule free online diagnostic",
+    timeframe: "Within 24 Hours",
+    title: "Discovery Phone Consultation",
+    summary: "A friendly 15-minute consultation with our academic director to discuss your targets.",
+    details: "We discuss your child's current school performance, confidence level, and schedule your complimentary diagnostic session.",
+    icon: PhoneCall,
   },
   {
     step: "03",
-    time: "Day 2 – 3",
+    timeframe: "Days 2 – 3",
     title: "Free Diagnostic Session",
-    description: "An encouraging 30-minute baseline check identifying exact strengths and gaps.",
-    action: "Pinpoint learning blindspots",
+    summary: "An encouraging 30-minute baseline assessment identifying specific curriculum gaps.",
+    details: "Conducted in a pressure-free online setting to pinpoint exact topic blindspots across Maths, English, or Science.",
+    icon: Sparkles,
   },
   {
     step: "04",
-    time: "Within 48 Hours",
-    title: "Child Growth Roadmap",
-    description: "Receive a transparent 12-week development plan tailored specifically to your child.",
-    action: "Review with academic director",
-  },
-  {
-    step: "05",
-    time: "Day 4 – 5",
-    title: "Cohort Placement",
-    description: "Matched with a compatible group of maximum 6 learners and convenient timetable.",
-    action: "Confirm evening/weekend slot",
-  },
-  {
-    step: "06",
-    time: "Week 1 Onward",
-    title: "Live Lessons & Progress",
-    description: "Interactive online classes begin with bi-weekly diagnostic updates sent to parents.",
-    action: "Continuous progress monitoring",
+    timeframe: "Days 4 – 5",
+    title: "Roadmap & Cohort Placement",
+    summary: "Receive a personalized 12-week growth plan and join your small group (max 6).",
+    details: "Your child is matched with an intimate cohort of compatible peers and begins interactive live lessons with bi-weekly updates.",
+    icon: Users,
   },
 ];
 
 export default function AdmissionTracker() {
+  const [activeStep, setActiveStep] = useState(0);
+
   return (
-    <section id="admissions" className="py-16 sm:py-20 bg-white border-b border-stone-200">
+    <section id="admissions" className="scroll-mt-24 py-16 sm:py-24 bg-white border-b border-stone-200 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header */}
-        <div className="max-w-3xl mb-12">
-          <div className="text-xs font-bold uppercase tracking-wider text-[#7B182B] mb-2">
+        {/* Section Header with Scroll Reveal */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="max-w-3xl mb-14"
+        >
+          <div className="text-xs font-bold uppercase tracking-wider text-[#4A0E17] mb-2">
             Admissions Pathway
           </div>
           <h2 className="font-heading text-3xl sm:text-4xl font-bold text-stone-900 tracking-tight">
-            How It Works: From Inquiry to First Lesson
+            What Happens After You Inquire
           </h2>
           <p className="mt-3 text-sm sm:text-base text-stone-600 leading-relaxed">
-            Our admissions process is transparent, friendly, and obligation-free. Here is what happens after you send an inquiry:
+            Our admissions journey is welcoming, transparent, and completely obligation-free. Click each phase below to see the exact progression from inquiry to your child's first live lesson.
           </p>
+        </motion.div>
+
+        {/* 4-Step Interactive Timeline Grid with Animated Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+          {steps.map((s, idx) => {
+            const Icon = s.icon;
+            const isCurrent = activeStep === idx;
+
+            return (
+              <motion.div
+                key={idx}
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.45, delay: idx * 0.1 }}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                onClick={() => setActiveStep(idx)}
+                className={`p-6 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between space-y-4 relative ${
+                  isCurrent
+                    ? "bg-stone-50/90 border-[#4A0E17] shadow-md ring-2 ring-[#4A0E17]/20"
+                    : "bg-white border-stone-200/90 hover:border-stone-300 hover:bg-stone-50/40 hover:shadow-sm"
+                }`}
+              >
+                {/* Active Indicator Pip */}
+                {isCurrent && (
+                  <motion.div
+                    layoutId="activeStepIndicator"
+                    className="absolute -top-1.5 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-[#4A0E17] text-white text-[10px] font-bold tracking-wide uppercase shadow-xs"
+                    transition={{ type: "spring", stiffness: 450, damping: 30 }}
+                  >
+                    Active Step
+                  </motion.div>
+                )}
+
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs font-bold text-[#4A0E17]">
+                      Step {s.step}
+                    </span>
+                    <span className="text-[11px] font-medium text-stone-600 bg-stone-100 px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                      <Clock className="w-3 h-3 text-[#C59B27]" />
+                      <span>{s.timeframe}</span>
+                    </span>
+                  </div>
+
+                  <motion.div
+                    animate={isCurrent ? { scale: [1, 1.08, 1] } : { scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
+                      isCurrent
+                        ? "bg-[#4A0E17] text-white"
+                        : "bg-[#4A0E17]/10 text-[#4A0E17]"
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                  </motion.div>
+
+                  <h3 className="font-semibold text-stone-900 text-base">
+                    {s.title}
+                  </h3>
+
+                  <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+                    {s.summary}
+                  </p>
+                </div>
+
+                <div className="pt-3 border-t border-stone-100 text-xs text-stone-500 leading-relaxed">
+                  {s.details}
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
-        {/* 6-Step Clean Card Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {steps.map((s, idx) => (
-            <div
-              key={idx}
-              className="p-6 rounded-2xl border border-stone-200 bg-stone-50/50 hover:bg-stone-50 transition-colors space-y-3"
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-xs font-bold text-[#7B182B]">
-                  Step {s.step}
-                </span>
-                <span className="text-[11px] font-medium text-stone-600 bg-white px-2.5 py-0.5 rounded-full border border-stone-200 flex items-center gap-1">
-                  <Clock className="w-3 h-3 text-[#D4AF37]" />
-                  <span>{s.time}</span>
-                </span>
-              </div>
+        {/* Bottom Reassurance & Direct Action with Hover Animation */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-30px" }}
+          transition={{ duration: 0.6 }}
+          className="mt-12 p-6 sm:p-8 rounded-2xl bg-[#FAF9F6] border border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xs hover:shadow-xs transition-shadow"
+        >
+          <div className="space-y-1 text-center sm:text-left">
+            <h4 className="font-semibold text-stone-900 text-sm sm:text-base">
+              Ready to discover your child's baseline score?
+            </h4>
+            <p className="text-xs sm:text-sm text-stone-600">
+              The initial consultation and diagnostic assessment are 100% free with no commitment required.
+            </p>
+          </div>
 
-              <h3 className="font-semibold text-stone-900 text-base">
-                {s.title}
-              </h3>
-
-              <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
-                {s.description}
-              </p>
-
-              <div className="pt-2 text-xs font-medium text-stone-700 flex items-center gap-1.5">
-                <span className="text-emerald-800 font-bold">✓</span>
-                <span>{s.action}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Obligation Free Note */}
-        <div className="mt-8 p-4 rounded-xl bg-stone-50 border border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-          <span className="text-stone-600 text-center sm:text-left">
-            <strong>100% Free & No Obligation:</strong> You never commit to ongoing tuition until you have completed the diagnostic and approved your child's timetable.
-          </span>
-          <a
+          <motion.a
+            whileHover={{ scale: 1.02, y: -2 }}
+            whileTap={{ scale: 0.98 }}
             href="#inquiry-form"
-            className="font-semibold text-[#3B0710] hover:underline inline-flex items-center gap-1 shrink-0"
+            className="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full text-sm font-semibold bg-[#4A0E17] text-white hover:bg-[#63121F] shadow-sm hover:shadow-md transition-all shrink-0 group"
           >
-            <span>Start with Step 1 below</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </a>
-        </div>
+            <span>Begin Parent Inquiry</span>
+            <ArrowRight className="w-4 h-4 text-[#E5C768] transition-transform duration-300 group-hover:translate-x-1" />
+          </motion.a>
+        </motion.div>
 
       </div>
     </section>

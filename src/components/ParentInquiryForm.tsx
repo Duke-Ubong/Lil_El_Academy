@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { Send, CheckCircle, AlertTriangle, Loader2, Phone, Mail, Sparkles, Shield, Info, ExternalLink, ClipboardList, ArrowRight } from "lucide-react";
-import { motion } from "motion/react";
-import InquiriesLedgerModal from "./InquiriesLedgerModal";
+import { Send, CheckCircle, Loader2, Phone, Mail, ShieldCheck } from "lucide-react";
 
 interface FormState {
   parentName: string;
@@ -27,20 +25,9 @@ export default function ParentInquiryForm() {
   const [formData, setFormData] = useState<FormState>(initialFormState);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [isLedgerOpen, setIsLedgerOpen] = useState(false);
-  const [showAdminDetails, setShowAdminDetails] = useState(false);
   const [successData, setSuccessData] = useState<{
     referenceId: string;
     message: string;
-    notice?: string;
-    emailDispatched?: boolean;
-    smtpNotice?: {
-      code: string;
-      title: string;
-      message: string;
-      account?: string;
-      instructions?: string[];
-    };
   } | null>(null);
 
   const keyStageOptions = [
@@ -73,21 +60,21 @@ export default function ParentInquiryForm() {
     e.preventDefault();
     setErrorMessage(null);
 
-    // Client-side validation
+    // Form validation
     if (!formData.parentName.trim()) {
-      setErrorMessage("Please provide your full name as parent or guardian.");
+      setErrorMessage("Please enter your name as parent or guardian.");
       return;
     }
     if (!formData.childName.trim()) {
-      setErrorMessage("Please provide your child's name.");
+      setErrorMessage("Please enter your child's name.");
       return;
     }
     if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
-      setErrorMessage("Please enter a valid email address (e.g. name@example.com).");
+      setErrorMessage("Please enter a valid email address.");
       return;
     }
     if (!formData.phone.trim() || formData.phone.trim().length < 8) {
-      setErrorMessage("Please enter a valid contact phone number so we can reach you for the assessment.");
+      setErrorMessage("Please enter a valid contact phone number.");
       return;
     }
 
@@ -96,9 +83,7 @@ export default function ParentInquiryForm() {
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
@@ -113,9 +98,6 @@ export default function ParentInquiryForm() {
       setSuccessData({
         referenceId: data.referenceId || "LE-ADM",
         message: data.message || "Thank you! Your inquiry has been received.",
-        notice: data.notice || data.devNotice,
-        emailDispatched: data.emailDispatched,
-        smtpNotice: data.smtpNotice,
       });
       setFormData(initialFormState);
     } catch (err: unknown) {
@@ -127,254 +109,180 @@ export default function ParentInquiryForm() {
   };
 
   return (
-    <section id="inquiry-form" className="relative py-24 bg-[#FAF9F6] text-stone-900 border-b border-stone-200/80 scroll-mt-14 overflow-hidden">
-      {/* Background ambient accents */}
-      <div className="absolute top-20 left-10 w-96 h-96 bg-[#D4AF37]/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#5A0F1D]/5 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="inquiry-form" className="py-16 sm:py-20 bg-stone-50 border-b border-stone-200 scroll-mt-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto space-y-3 mb-14"
-        >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-stone-200/60 backdrop-blur-md border border-stone-300/40 text-[#5A0F1D] text-xs font-bold uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
-            <span>Admissions & Assessment</span>
+        <div className="max-w-3xl mb-12">
+          <div className="text-xs font-bold uppercase tracking-wider text-[#7B182B] mb-2">
+            Admissions & Enrollment
           </div>
-          <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-[#3B0710] tracking-tight">
-            Take the First Step Toward Your Child’s Brilliance
+          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-stone-900 tracking-tight">
+            Book a Free Diagnostic Assessment
           </h2>
-          <p className="text-xs sm:text-sm text-stone-600 font-sans-body max-w-2xl mx-auto leading-relaxed">
-            Book a complimentary 20-minute diagnostic consultation and personalized Child Growth Plan. No upfront fees, no locked-in contracts — just clear, honest guidance.
+          <p className="mt-3 text-sm sm:text-base text-stone-600 leading-relaxed">
+            Fill in the details below to register your interest. Our academic advisor will get in touch within 24 hours to arrange your child’s complimentary online baseline consultation.
           </p>
-        </motion.div>
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           
-          {/* Left Column: Direct Contact & Process (Col 1-5) */}
+          {/* Left Column: Direct Contact & Guarantees (Col 1-5) */}
           <div className="lg:col-span-5 space-y-6">
             
-            {/* Apple Dark Glass Admissions Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="rounded-3xl p-7 sm:p-8 backdrop-blur-2xl bg-gradient-to-br from-[#4A0C17]/95 via-[#3B0710]/95 to-[#240309]/95 text-white border border-white/15 shadow-[0_20px_50px_rgba(59,7,16,0.25)] relative overflow-hidden"
-            >
-              {/* Subtle gold ambient glow */}
-              <div className="absolute -top-12 -right-12 w-40 h-40 bg-[#D4AF37]/15 rounded-full blur-2xl pointer-events-none" />
-
-              <h3 className="font-heading text-xl font-bold text-white mb-2">
-                Admissions Office
-              </h3>
-              <p className="text-xs text-stone-200/90 font-sans-body leading-relaxed mb-6">
-                Prefer to speak with an educational director immediately? We welcome your calls and WhatsApp inquiries.
-              </p>
+            <div className="p-6 sm:p-7 rounded-2xl bg-white border border-stone-200 shadow-2xs space-y-5">
+              <div>
+                <h3 className="font-heading text-lg font-bold text-stone-900">
+                  Admissions Office
+                </h3>
+                <p className="text-xs text-stone-600 mt-1">
+                  Have questions before applying? Reach out directly:
+                </p>
+              </div>
 
               <div className="space-y-3 text-xs sm:text-sm">
                 <a
                   href="tel:+447768639106"
-                  className="flex items-center gap-3.5 p-3.5 rounded-2xl backdrop-blur-md bg-white/10 hover:bg-white/15 border border-white/10 transition-all group"
+                  className="flex items-center gap-3 p-3.5 rounded-xl border border-stone-200 bg-stone-50 hover:bg-stone-100 transition-colors"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#D4AF37] to-[#B38F26] text-[#3B0710] flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+                  <div className="w-8 h-8 rounded-lg bg-[#3B0710] text-[#E5C768] flex items-center justify-center shrink-0">
                     <Phone className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="text-[10px] text-[#D4AF37] font-semibold uppercase tracking-wider">Direct Phone / WhatsApp</div>
-                    <div className="font-bold text-white text-sm sm:text-base tracking-wide">+44 7768 639106</div>
+                    <div className="text-[11px] text-stone-500">Phone / WhatsApp</div>
+                    <div className="font-bold text-stone-900">+44 7768 639106</div>
                   </div>
                 </a>
 
                 <a
                   href="mailto:info@lilelacademy.com"
-                  className="flex items-center gap-3.5 p-3.5 rounded-2xl backdrop-blur-md bg-white/10 hover:bg-white/15 border border-white/10 transition-all group"
+                  className="flex items-center gap-3 p-3.5 rounded-xl border border-stone-200 bg-stone-50 hover:bg-stone-100 transition-colors"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#D4AF37] to-[#B38F26] text-[#3B0710] flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+                  <div className="w-8 h-8 rounded-lg bg-[#3B0710] text-[#E5C768] flex items-center justify-center shrink-0">
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="text-[10px] text-[#D4AF37] font-semibold uppercase tracking-wider">Admissions Email</div>
-                    <div className="font-bold text-white text-sm sm:text-base tracking-wide">info@lilelacademy.com</div>
+                    <div className="text-[11px] text-stone-500">Admissions Email</div>
+                    <div className="font-bold text-stone-900">info@lilelacademy.com</div>
                   </div>
                 </a>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-white/10 space-y-3 text-xs text-stone-300">
-                <div className="flex items-center gap-2.5">
-                  <Shield className="w-4 h-4 text-[#D4AF37] shrink-0" />
-                  <span>Enhanced DBS verified Christian subject educators</span>
+              <div className="border-t border-stone-100 pt-4 space-y-2 text-xs text-stone-600">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-emerald-800 shrink-0" />
+                  <span>Enhanced DBS-checked Christian educators</span>
                 </div>
-                <div className="flex items-center gap-2.5">
-                  <Shield className="w-4 h-4 text-[#D4AF37] shrink-0" />
-                  <span>Strict maximum of 6 students per interactive cohort</span>
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-emerald-800 shrink-0" />
+                  <span>Strictly capped cohorts (maximum 6 students)</span>
                 </div>
-                <div className="flex items-center gap-2.5">
-                  <Shield className="w-4 h-4 text-[#D4AF37] shrink-0" />
-                  <span>Bi-weekly diagnostic reports directly to parents</span>
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-emerald-800 shrink-0" />
+                  <span>Bi-weekly diagnostic feedback to parents</span>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
-            {/* Quick 3-Step Timeline Box: Apple Glass Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="rounded-3xl p-6 sm:p-7 backdrop-blur-xl bg-white/80 border border-white/90 shadow-[0_10px_30px_rgba(0,0,0,0.03),inset_0_1px_1px_rgba(255,255,255,0.9)]"
-            >
-              <h4 className="font-heading font-bold text-[#163A24] text-sm sm:text-base mb-4">
-                What Happens After You Inquire?
-              </h4>
-              <ol className="space-y-3.5 text-xs text-stone-600">
-                <li className="flex items-start gap-3">
-                  <span className="w-5 h-5 rounded-full bg-[#163A24] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">1</span>
-                  <span><strong>24-Hour Contact:</strong> Our academic advisor calls you to understand your child's learning stage and targets.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-5 h-5 rounded-full bg-[#163A24] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</span>
-                  <span><strong>Diagnostic Assessment:</strong> Free online baseline session identifying exact gaps in Maths, English, or Science.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-5 h-5 rounded-full bg-[#163A24] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">3</span>
-                  <span><strong>Cohort Placement:</strong> Match with a compatible 6-student group and receive a tailored 12-week growth plan.</span>
-                </li>
-              </ol>
-            </motion.div>
+            <div className="p-5 rounded-2xl bg-[#3B0710]/5 border border-[#3B0710]/15 text-xs text-stone-700 leading-relaxed">
+              <strong className="text-stone-900 block mb-1">Our Privacy Commitment:</strong>
+              Your contact details are strictly used to schedule your child's assessment and provide educational updates. We never share or sell parent information.
+            </div>
 
           </div>
 
-          {/* Right Column: Interactive Parent Registration Form (Col 6-12) */}
+          {/* Right Column: Clean Form (Col 6-12) */}
           <div className="lg:col-span-7">
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="rounded-3xl p-7 sm:p-10 backdrop-blur-2xl bg-white/85 border border-white/95 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05),inset_0_1px_1px_rgba(255,255,255,0.95)] relative"
-            >
-              {/* If Submission Was Successful */}
+            <div className="p-6 sm:p-8 rounded-2xl bg-white border border-stone-200 shadow-sm">
+              
               {successData ? (
-                <div className="py-8 text-center space-y-6">
-                  <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto border border-emerald-200 shadow-xs">
-                    <CheckCircle className="w-9 h-9" />
+                <div className="text-center py-8 space-y-4">
+                  <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto">
+                    <CheckCircle className="w-8 h-8" />
                   </div>
-
-                  <div className="space-y-2">
-                    <span className="text-[11px] font-bold tracking-widest text-[#7B182B] uppercase">
-                      Inquiry Dispatched Successfully
-                    </span>
-                    <h3 className="font-heading text-2xl sm:text-3xl font-bold text-[#3B0710]">
-                      Thank You, Parent!
+                  <div>
+                    <h3 className="font-heading text-2xl font-bold text-stone-900">
+                      Inquiry Received
                     </h3>
-                    <p className="text-stone-600 text-xs sm:text-sm max-w-md mx-auto">
-                      We have received your details. Your inquiry is recorded under admissions reference:
+                    <p className="text-xs sm:text-sm text-stone-600 mt-1">
+                      Your inquiry has been logged under reference code:
                     </p>
-                    <div className="inline-block bg-[#FAF5EB] border border-[#D4AF37]/60 px-4 py-2 rounded-xl font-mono font-bold text-base sm:text-lg text-[#5A0F1D] shadow-2xs">
+                    <div className="inline-block mt-2 px-4 py-1.5 rounded-lg bg-stone-100 font-mono font-bold text-sm text-[#3B0710] border border-stone-300">
                       {successData.referenceId}
                     </div>
                   </div>
 
-                  <div className="backdrop-blur-md bg-stone-50/90 border border-stone-200/80 rounded-2xl p-5 text-left text-xs sm:text-sm text-stone-700 max-w-lg mx-auto space-y-2">
-                    <div className="font-bold text-[#163A24]">Next Steps:</div>
-                    <p>• Our senior academic advisor will review your child's profile.</p>
-                    <p>• We will contact you via phone and email within <strong>24 hours</strong> to confirm your free diagnostic consultation.</p>
-                    <p>• For urgent questions, call <a href="tel:+447768639106" className="text-[#5A0F1D] font-bold underline">+44 7768 639106</a>.</p>
+                  <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-700 text-left space-y-2 max-w-md mx-auto">
+                    <div className="font-bold text-stone-900">What happens next?</div>
+                    <div>1. An academic advisor will review your child’s Year group requirements.</div>
+                    <div>2. We will contact you within 24 hours to confirm your free diagnostic session.</div>
                   </div>
 
-                  <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+                  <div className="pt-2">
                     <button
                       onClick={() => setSuccessData(null)}
-                      className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-semibold bg-[#5A0F1D] text-white hover:bg-[#7B182B] transition-colors shadow-xs"
+                      className="px-6 py-2.5 rounded-full text-xs font-semibold bg-[#3B0710] text-white hover:bg-[#5A0F1D] transition-colors"
                     >
-                      <span>Submit Another Inquiry</span>
+                      Submit Another Inquiry
                     </button>
-                    <a
-                      href="tel:+447768639106"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold bg-stone-100 text-stone-700 hover:bg-stone-200 transition-colors"
-                    >
-                      <Phone className="w-3.5 h-3.5 text-[#5A0F1D]" />
-                      <span>Call Admissions Office</span>
-                    </a>
                   </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                   
-                  {/* Form Intro */}
-                  <div className="border-b border-stone-100 pb-3">
-                    <h3 className="font-heading text-lg sm:text-xl font-bold text-stone-900">
-                      Parent Registration & Diagnostic Booking
-                    </h3>
-                    <p className="text-xs text-stone-500 mt-0.5">
-                      Fields marked with <span className="text-red-500">*</span> are required.
-                    </p>
-                  </div>
-
-                  {/* Error Banner */}
                   {errorMessage && (
-                    <div className="p-3.5 rounded-2xl bg-red-50/90 border border-red-200/80 text-red-700 text-xs flex items-start gap-2.5">
-                      <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
-                      <div>
-                        <strong className="font-semibold block">Please verify:</strong>
-                        <span>{errorMessage}</span>
-                      </div>
+                    <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-medium">
+                      {errorMessage}
                     </div>
                   )}
 
-                  {/* Row 1: Parent Name & Child Name */}
+                  {/* Two Column Names */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="parentName" className="block text-[11px] font-bold text-stone-700 mb-1">
-                        Parent / Guardian Full Name <span className="text-red-500">*</span>
+                      <label htmlFor="parentName" className="block text-xs font-semibold text-stone-800 mb-1.5">
+                        Parent / Guardian Name *
                       </label>
                       <input
                         type="text"
                         id="parentName"
                         name="parentName"
+                        required
                         value={formData.parentName}
                         onChange={handleChange}
                         placeholder="e.g. Sarah Jenkins"
-                        required
-                        className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl border border-stone-200 bg-stone-50/70 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7B182B]/20 focus:border-[#7B182B] transition-all placeholder:text-stone-400"
+                        className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-stone-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#3B0710]/20 focus:border-[#3B0710] transition-all"
                       />
                     </div>
 
                     <div>
-                      <label htmlFor="childName" className="block text-[11px] font-bold text-stone-700 mb-1">
-                        Child / Student Full Name <span className="text-red-500">*</span>
+                      <label htmlFor="childName" className="block text-xs font-semibold text-stone-800 mb-1.5">
+                        Child's Name *
                       </label>
                       <input
                         type="text"
                         id="childName"
                         name="childName"
+                        required
                         value={formData.childName}
                         onChange={handleChange}
                         placeholder="e.g. David Jenkins"
-                        required
-                        className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl border border-stone-200 bg-stone-50/70 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7B182B]/20 focus:border-[#7B182B] transition-all placeholder:text-stone-400"
+                        className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-stone-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#3B0710]/20 focus:border-[#3B0710] transition-all"
                       />
                     </div>
                   </div>
 
-                  {/* Row 2: Year Group & Subject */}
+                  {/* Two Column Dropdowns */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="keyStage" className="block text-[11px] font-bold text-stone-700 mb-1">
-                        Child's Year Group / Stage <span className="text-red-500">*</span>
+                      <label htmlFor="keyStage" className="block text-xs font-semibold text-stone-800 mb-1.5">
+                        Child's Key Stage / Year Group *
                       </label>
                       <select
                         id="keyStage"
                         name="keyStage"
                         value={formData.keyStage}
                         onChange={handleChange}
-                        className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl border border-stone-200 bg-stone-50/70 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7B182B]/20 focus:border-[#7B182B] transition-all font-medium text-stone-800"
+                        className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-stone-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#3B0710]/20 focus:border-[#3B0710] transition-all"
                       >
                         {keyStageOptions.map((opt) => (
                           <option key={opt} value={opt}>
@@ -385,15 +293,15 @@ export default function ParentInquiryForm() {
                     </div>
 
                     <div>
-                      <label htmlFor="subject" className="block text-[11px] font-bold text-stone-700 mb-1">
-                        Subject(s) of Interest
+                      <label htmlFor="subject" className="block text-xs font-semibold text-stone-800 mb-1.5">
+                        Subject Focus *
                       </label>
                       <select
                         id="subject"
                         name="subject"
                         value={formData.subject}
                         onChange={handleChange}
-                        className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl border border-stone-200 bg-stone-50/70 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7B182B]/20 focus:border-[#7B182B] transition-all font-medium text-stone-800"
+                        className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-stone-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#3B0710]/20 focus:border-[#3B0710] transition-all"
                       >
                         {subjectOptions.map((opt) => (
                           <option key={opt} value={opt}>
@@ -404,45 +312,45 @@ export default function ParentInquiryForm() {
                     </div>
                   </div>
 
-                  {/* Row 3: Email & Phone */}
+                  {/* Two Column Email & Phone */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="email" className="block text-[11px] font-bold text-stone-700 mb-1">
-                        Email Address <span className="text-red-500">*</span>
+                      <label htmlFor="email" className="block text-xs font-semibold text-stone-800 mb-1.5">
+                        Parent Email Address *
                       </label>
                       <input
                         type="email"
                         id="email"
                         name="email"
+                        required
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="parent@example.com"
-                        required
-                        className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl border border-stone-200 bg-stone-50/70 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7B182B]/20 focus:border-[#7B182B] transition-all placeholder:text-stone-400"
+                        className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-stone-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#3B0710]/20 focus:border-[#3B0710] transition-all"
                       />
                     </div>
 
                     <div>
-                      <label htmlFor="phone" className="block text-[11px] font-bold text-stone-700 mb-1">
-                        Contact Phone Number <span className="text-red-500">*</span>
+                      <label htmlFor="phone" className="block text-xs font-semibold text-stone-800 mb-1.5">
+                        Contact Phone Number *
                       </label>
                       <input
                         type="tel"
                         id="phone"
                         name="phone"
+                        required
                         value={formData.phone}
                         onChange={handleChange}
                         placeholder="+44 7123 456789"
-                        required
-                        className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl border border-stone-200 bg-stone-50/70 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7B182B]/20 focus:border-[#7B182B] transition-all placeholder:text-stone-400"
+                        className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-stone-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#3B0710]/20 focus:border-[#3B0710] transition-all"
                       />
                     </div>
                   </div>
 
-                  {/* Row 4: Brief Message */}
+                  {/* Optional Message */}
                   <div>
-                    <label htmlFor="message" className="block text-[11px] font-bold text-stone-700 mb-1">
-                      Brief Message or Academic Goals <span className="text-stone-400 font-normal">(Optional)</span>
+                    <label htmlFor="message" className="block text-xs font-semibold text-stone-800 mb-1.5">
+                      Brief Notes on Your Child's Needs (Optional)
                     </label>
                     <textarea
                       id="message"
@@ -451,34 +359,26 @@ export default function ParentInquiryForm() {
                       value={formData.message}
                       onChange={handleChange}
                       placeholder="e.g. Needs confidence in GCSE Maths problem-solving before Year 10 mock exams..."
-                      className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl border border-stone-200 bg-stone-50/70 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7B182B]/20 focus:border-[#7B182B] transition-all placeholder:text-stone-400 resize-y"
+                      className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-stone-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#3B0710]/20 focus:border-[#3B0710] transition-all resize-y"
                     />
                   </div>
 
-                  {/* Privacy Checkmark */}
-                  <div className="text-[11px] text-stone-500 flex items-start gap-2 bg-stone-100/70 p-3 rounded-2xl border border-stone-200/60">
-                    <Shield className="w-4 h-4 text-[#5A0F1D] shrink-0 mt-0.5" />
-                    <span>
-                      We respect your privacy. Details are stored strictly for Lil-El Academy admissions and diagnostic planning. We never share or sell parent information.
-                    </span>
-                  </div>
-
                   {/* Submit Button */}
-                  <div>
+                  <div className="pt-2">
                     <button
                       type="submit"
                       disabled={isLoading}
-                      className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-2xl text-sm sm:text-base font-bold bg-gradient-to-r from-[#5A0F1D] to-[#3B0710] text-white hover:opacity-95 shadow-[0_10px_25px_rgba(90,15,29,0.25)] transition-all disabled:opacity-60 disabled:cursor-not-allowed transform active:scale-98"
+                      className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl text-sm font-bold bg-[#3B0710] text-white hover:bg-[#5A0F1D] shadow-xs transition-all disabled:opacity-60"
                     >
                       {isLoading ? (
                         <>
-                          <Loader2 className="w-4 h-4 animate-spin text-[#D4AF37]" />
-                          <span>Dispatching Inquiry to Admissions...</span>
+                          <Loader2 className="w-4 h-4 animate-spin text-[#E5C768]" />
+                          <span>Sending Inquiry...</span>
                         </>
                       ) : (
                         <>
-                          <Send className="w-4 h-4 text-[#D4AF37]" />
-                          <span>Submit Parent Inquiry & Book Assessment</span>
+                          <Send className="w-4 h-4 text-[#E5C768]" />
+                          <span>Book Free Diagnostic Assessment</span>
                         </>
                       )}
                     </button>
@@ -487,27 +387,12 @@ export default function ParentInquiryForm() {
                 </form>
               )}
 
-            </motion.div>
+            </div>
           </div>
 
         </div>
 
-        {/* Parent Reassurance Note */}
-        <div className="mt-8 text-center text-xs text-stone-500">
-          <span className="inline-flex items-center gap-1.5">
-            <Shield className="w-3.5 h-3.5 text-[#163A24]" />
-            <span>Official Admissions Portal for Lil-El Academy • All inquiries processed within 24 hours</span>
-          </span>
-        </div>
-
       </div>
-
-      {/* Admissions Ledger Modal (Kept for administrative debugging if triggered via shortcut) */}
-      <InquiriesLedgerModal
-        isOpen={isLedgerOpen}
-        onClose={() => setIsLedgerOpen(false)}
-      />
     </section>
   );
 }
-

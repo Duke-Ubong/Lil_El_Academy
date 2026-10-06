@@ -1,6 +1,7 @@
 import React from "react";
 import { Star, Quote, CheckCircle2, ShieldCheck, HeartHandshake, Award } from "lucide-react";
 import { motion } from "motion/react";
+import { IMAGES } from "../assets/images/index";
 
 const testimonials = [
   {
@@ -52,25 +53,33 @@ export default function ParentPartnership() {
         </motion.div>
 
         {/* Featured Showcase: Image + Top Testimonial Banner */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-14 bg-white rounded-3xl border border-stone-200 shadow-sm overflow-hidden p-6 sm:p-8 lg:p-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-14 bg-white rounded-2xl border border-black/[0.06] shadow-[0_20px_50px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.03)] ring-1 ring-black/[0.02] overflow-hidden p-6 sm:p-8 lg:p-10">
           
-          {/* Left Column: Authentic Photography of Diverse Students */}
-          <div className="lg:col-span-6 relative rounded-2xl overflow-hidden aspect-[4/3] bg-stone-100 shadow-inner group">
+          {/* Left Column: Authentic Photography of Christian Parent & Teenager Mentorship */}
+          <div className="lg:col-span-6 relative rounded-xl overflow-hidden aspect-[4/3] bg-stone-100 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08)] border border-black/[0.04] group">
             <img
-              src="/src/assets/images/diverse_gcse_students_1791146318340.jpg"
-              alt="Diverse multinational secondary pupils reviewing Lil-El Academy progress and examination revision"
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              src={IMAGES.parentPastoralCare}
+              alt="British Christian parent and secondary pupil reviewing Lil-El Academy progress and examination revision"
+              className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+              referrerPolicy="no-referrer"
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (!target.dataset.triedFallback) {
+                  target.dataset.triedFallback = "true";
+                  target.src = "/assets/images/christian_parent_pastoral_care_1791237513013.jpg";
+                }
+              }}
             />
             
-            {/* Overlay Badges */}
-            <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-lg border border-stone-200/90 shadow-md flex items-center gap-2">
+            {/* Apple-style Frosted Overlay Badges */}
+            <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-black/[0.06] shadow-sm flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span className="text-xs font-bold text-stone-900">Weekly Diagnostic Transparency</span>
+              <span className="text-xs font-semibold text-stone-900">Pastoral Care & Weekly Progress</span>
             </div>
 
-            <div className="absolute bottom-4 right-4 bg-[#230307]/90 backdrop-blur-md border border-[#F5B82E]/30 px-4 py-2 rounded-lg text-white shadow-lg text-right">
-              <div className="text-[10px] text-[#F5B82E] font-bold uppercase">Family Satisfaction</div>
-              <div className="text-xs font-bold">99% Positive Parent Feedback</div>
+            <div className="absolute bottom-4 right-4 bg-black/65 backdrop-blur-md border border-white/15 px-3.5 py-2 rounded-xl text-white shadow-lg text-right">
+              <div className="text-[10px] text-[#F5B82E] font-semibold uppercase tracking-wider">Family Satisfaction</div>
+              <div className="text-xs font-bold mt-0.5">99% Positive Parent Feedback</div>
             </div>
           </div>
 

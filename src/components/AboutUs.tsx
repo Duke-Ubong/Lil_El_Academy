@@ -1,6 +1,7 @@
 import React from "react";
 import { ArrowRight, Compass, ShieldCheck, HeartHandshake, Users, Sparkles } from "lucide-react";
 import { motion, type Variants } from "motion/react";
+import { IMAGES } from "../assets/images/index";
 
 const pillars = [
   {
@@ -58,16 +59,38 @@ export default function AboutUs() {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start mb-16"
         >
-          <div className="lg:col-span-5 space-y-3">
-            <div className="text-xs font-bold uppercase tracking-wider text-[#9B111E]">
-              Our Foundation & Ethos
+          <div className="lg:col-span-5 space-y-5">
+            <div className="space-y-3">
+              <div className="text-xs font-bold uppercase tracking-wider text-[#9B111E]">
+                Our Foundation & Ethos
+              </div>
+              <h2 className="font-heading text-3xl sm:text-4xl font-bold text-stone-900 leading-tight">
+                Inspiring True Potential Through Faith & Wisdom
+              </h2>
+              <p className="text-stone-600 text-sm sm:text-base leading-relaxed pt-1 font-sans-body">
+                Lil-El Academy was founded to bridge the gap between mainstream classroom pressures and individual child potential. We provide structured online supplementary tuition for Key Stages 1 to 4 in <strong className="text-stone-900 font-semibold">Mathematics, English, Science</strong>, and a foundational <strong className="text-stone-900 font-semibold">Christian worldview</strong>.
+              </p>
             </div>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-stone-900 leading-tight">
-              Inspiring True Potential Through Faith & Wisdom
-            </h2>
-            <p className="text-stone-600 text-sm sm:text-base leading-relaxed pt-1">
-              Lil-El Academy was founded to bridge the gap between mainstream classroom pressures and individual child potential. We provide structured online supplementary tuition for Key Stages 1 to 4 in <strong className="text-stone-900 font-semibold">Mathematics, English, Science</strong>, and a foundational <strong className="text-stone-900 font-semibold">Christian worldview</strong>.
-            </p>
+
+            {/* Apple-styled Academic Photo Card */}
+            <div className="relative rounded-2xl overflow-hidden aspect-[16/10] bg-stone-100 shadow-[0_15px_35px_-5px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.03)] border border-black/[0.06] ring-1 ring-black/[0.02] group">
+              <img
+                src={IMAGES.academicStudent}
+                alt="Multinational student engaged in online study with Christian academic focus at Lil-El Academy"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (!target.dataset.triedFallback) {
+                    target.dataset.triedFallback = "true";
+                    target.src = "/assets/images/christian_academic_hero_student_1791237474077.jpg";
+                  }
+                }}
+              />
+              <div className="absolute bottom-3 left-3 right-3 bg-black/60 backdrop-blur-md text-white px-3 py-1.5 rounded-xl text-[11px] font-medium text-center border border-white/10 shadow-sm">
+                Faith & Scholarship · British Curriculum KS1–KS4
+              </div>
+            </div>
           </div>
 
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">

@@ -3,6 +3,7 @@ import { Send, CheckCircle, Loader2, Phone, Mail, ShieldCheck, Check, Copy, Aler
 import { motion, AnimatePresence } from "motion/react";
 import { parentInquirySchema, keyStages, subjects, type ParentInquiryInput } from "../lib/validation";
 import { Button } from "./ui/button";
+import { IMAGES } from "../assets/images/index";
 
 const initialFormState: ParentInquiryInput = {
   parentName: "",
@@ -186,6 +187,26 @@ export default function ParentInquiryForm() {
                   <Check className="w-3.5 h-3.5 text-emerald-800 shrink-0" />
                   <span>Prompt response within 24 hours guaranteed</span>
                 </div>
+              </div>
+            </div>
+
+            {/* Apple-styled Academic Cohort Card */}
+            <div className="relative rounded-2xl overflow-hidden aspect-[16/10] bg-stone-100 shadow-[0_16px_36px_-6px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.03)] border border-black/[0.06] ring-1 ring-black/[0.02] group">
+              <img
+                src={IMAGES.heroStudents}
+                alt="Multinational group of British secondary students in Christian school blazers at Lil-El Academy"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (!target.dataset.triedFallback) {
+                    target.dataset.triedFallback = "true";
+                    target.src = "/assets/images/christian_academy_hero_students_1791265312556.jpg";
+                  }
+                }}
+              />
+              <div className="absolute bottom-3 left-3 right-3 bg-black/65 backdrop-blur-md text-white px-3 py-1.5 rounded-xl text-[11px] font-medium text-center border border-white/10 shadow-sm">
+                Christian British Academy · Key Stages 1 to 4
               </div>
             </div>
           </motion.div>

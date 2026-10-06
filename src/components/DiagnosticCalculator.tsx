@@ -163,7 +163,7 @@ export default function DiagnosticCalculator() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-white rounded-3xl border border-stone-200 shadow-sm p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start"
+            className="bg-white rounded-2xl border border-black/[0.06] shadow-[0_20px_50px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.03)] ring-1 ring-black/[0.02] p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start"
           >
             {/* Controls (Cols 1-7) */}
             <div className="lg:col-span-7 space-y-7">
@@ -359,7 +359,7 @@ export default function DiagnosticCalculator() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-white rounded-3xl border border-stone-200 shadow-sm p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center"
+            className="bg-white rounded-2xl border border-black/[0.06] shadow-[0_20px_50px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.03)] ring-1 ring-black/[0.02] p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center"
           >
             {/* Controls Column (Cols 1-6) */}
             <div className="lg:col-span-6 space-y-6">

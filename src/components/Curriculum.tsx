@@ -3,6 +3,7 @@ import { Calculator, BookOpen, Atom, ArrowRight, Check, FileText } from "lucide-
 import { motion, AnimatePresence } from "motion/react";
 import { Modal } from "./ui/modal";
 import { Button } from "./ui/button";
+import { IMAGES } from "../assets/images/index";
 
 interface Stage {
   id: string;
@@ -359,22 +360,30 @@ export default function Curriculum() {
                 </div>
               </div>
 
-              {/* Stage Visual Thumbnail with Multinational Students */}
+              {/* Stage Visual Thumbnail with Diverse Student Groups in Academic Settings */}
               <div className="lg:col-span-4">
-                <div className="relative rounded-xl overflow-hidden aspect-[16/10] bg-stone-100 shadow-sm border border-stone-200">
+                <div className="relative rounded-2xl overflow-hidden aspect-[16/10] bg-stone-100 shadow-[0_12px_32px_-4px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] border border-black/[0.06] ring-1 ring-black/[0.02] group">
                   <img
                     src={
                       activeStage.id === "ks1" || activeStage.id === "ks2"
-                        ? "/src/assets/images/multinational_primary_kids_1791146304885.jpg"
-                        : activeStage.id === "ks3"
-                        ? "/src/assets/images/diverse_online_classroom_1791146292448.jpg"
-                        : "/src/assets/images/diverse_gcse_students_1791146318340.jpg"
+                        ? IMAGES.primaryPupils
+                        : IMAGES.gcseExcellence
                     }
-                    alt={`${activeStage.name} multinational students learning at Lil-El Academy`}
-                    className="w-full h-full object-cover"
+                    alt={`${activeStage.name} Christian academic students excelling at Lil-El Academy`}
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (!target.dataset.triedFallback) {
+                        target.dataset.triedFallback = "true";
+                        target.src = activeStage.id === "ks1" || activeStage.id === "ks2"
+                          ? "/assets/images/christian_primary_pupils_faith_1791265335743.jpg"
+                          : "/assets/images/christian_gcse_exam_excellence_1791265350656.jpg";
+                      }
+                    }}
                   />
-                  <div className="absolute bottom-2 left-2 right-2 bg-stone-950/80 backdrop-blur-sm text-white px-2.5 py-1 rounded text-[11px] font-medium text-center">
-                    {activeStage.name} ({activeStage.ages}) · Interactive Online Cohort
+                  <div className="absolute bottom-3 left-3 right-3 bg-black/65 backdrop-blur-md text-white px-3 py-1.5 rounded-xl text-[11px] font-medium text-center border border-white/10 shadow-sm">
+                    {activeStage.name} ({activeStage.ages}) · Christian Ethos & 1:6 Cohort
                   </div>
                 </div>
               </div>

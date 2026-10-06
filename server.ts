@@ -62,10 +62,14 @@ function persistInquiry(inquiry: InquiryRecord) {
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const PORT = Number(process.env.PORT) || 3000;
 
   // Middleware
   app.use(express.json());
+
+  // Ensure static public assets are served cleanly
+  app.use("/assets", express.static(path.join(process.cwd(), "public/assets")));
+  app.use("/public/assets", express.static(path.join(process.cwd(), "public/assets")));
 
   // In-memory cache synced with disk
   const inquiriesLog: InquiryRecord[] = getStoredInquiries();
@@ -401,7 +405,13 @@ Website: https://www.lilelacademy.com
   } else {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
+    app.use("/assets", express.static(path.join(distPath, "assets")));
+    app.use("/assets/images", express.static(path.join(distPath, "assets/images")));
     app.get("*", (req, res) => {
+      // If it's a missing file request, return 404 rather than serving index.html
+      if (req.path.match(/\.(jpg|jpeg|png|gif|svg|webp|css|js|map|ico|woff2?)$/i)) {
+        return res.status(404).send("Asset not found");
+      }
       res.sendFile(path.join(distPath, "index.html"));
     });
   }

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ArrowRight, Check, Users, Sparkles, GraduationCap, ChevronRight, BookOpen, Star, ShieldCheck, Award, Download, Play, Calendar } from "lucide-react";
 import { motion, AnimatePresence, type Variants } from "motion/react";
+import { IMAGES } from "../assets/images/index";
 
 interface HeroProps {
   onOpenProspectus?: () => void;
@@ -193,28 +194,36 @@ export default function Hero({ onOpenProspectus }: HeroProps) {
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             className="lg:col-span-5"
           >
-            <div className="relative rounded-2xl bg-white border border-stone-200 shadow-xl overflow-hidden">
+            <div className="relative rounded-2xl bg-white border border-black/[0.06] shadow-[0_20px_50px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.03] overflow-hidden group">
               
-              {/* Top Hero Image Container with Multinational Students Image */}
+              {/* Top Hero Image Container with Christian Academy Students in Academic Library */}
               <div className="relative aspect-[16/10] overflow-hidden bg-stone-100">
                 <img
-                  src="/src/assets/images/multinational_hero_students_1791146280136.jpg"
-                  alt="Multinational diverse students learning online with Lil-El Academy"
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                  src={IMAGES.heroStudents}
+                  alt="Multinational group of British secondary students in Christian school blazers studying with Bible and academic textbooks at Lil-El Academy"
+                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.dataset.triedFallback) {
+                      target.dataset.triedFallback = "true";
+                      target.src = "/assets/images/christian_academy_hero_students_1791265312556.jpg";
+                    }
+                  }}
                 />
 
-                {/* Live Seminar Badge */}
-                <div className="absolute top-3 left-3 bg-[#230307]/90 backdrop-blur-md border border-[#F5B82E]/40 px-3 py-1 rounded-full text-white flex items-center gap-2 text-xs shadow-md">
-                  <span className="w-2 h-2 rounded-full bg-[#E21B2B] animate-ping" />
-                  <span className="font-semibold text-stone-100">Live 1:6 Online Seminar</span>
+                {/* Apple-style Frosted Glass Seminar Badge */}
+                <div className="absolute top-3.5 left-3.5 bg-black/60 backdrop-blur-md border border-white/20 px-3 py-1 rounded-xl text-white flex items-center gap-2 text-xs shadow-sm">
+                  <span className="w-2 h-2 rounded-full bg-[#E21B2B] animate-pulse" />
+                  <span className="font-semibold text-stone-100 text-[11px] tracking-wide">Christian Ethos · 1:6 Cohorts</span>
                 </div>
 
-                {/* Floating Grade Elevation Badge */}
-                <div className="absolute bottom-3 right-3 bg-white/95 backdrop-blur-md border border-stone-200/90 px-3 py-1.5 rounded-lg shadow-lg flex items-center gap-2">
+                {/* Floating Apple-style Grade Elevation Badge */}
+                <div className="absolute bottom-3.5 right-3.5 bg-white/95 backdrop-blur-md border border-black/[0.06] shadow-[0_8px_20px_rgba(0,0,0,0.08)] px-3.5 py-1.5 rounded-xl flex items-center gap-2.5">
                   <Award className="w-4 h-4 text-[#F5B82E]" />
                   <div className="text-left">
-                    <div className="text-[10px] text-stone-500 font-semibold uppercase leading-none">Outcome Metric</div>
-                    <div className="text-xs font-bold text-stone-900 leading-tight">+2.1 Average Grade Rise</div>
+                    <div className="text-[10px] text-stone-500 font-semibold uppercase tracking-wider leading-none">Outcome Metric</div>
+                    <div className="text-xs font-bold text-stone-900 leading-tight mt-0.5">+2.1 Average Grade Rise</div>
                   </div>
                 </div>
               </div>

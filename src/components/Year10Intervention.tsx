@@ -1,6 +1,7 @@
 import React from "react";
 import { AlertCircle, CheckCircle, ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
+import { IMAGES } from "../assets/images/index";
 
 const steps = [
   {
@@ -111,6 +112,52 @@ export default function Year10Intervention() {
           </motion.div>
 
         </div>
+
+        {/* Visual Callout: Academic Focus & Christian Ambition */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.5 }}
+          className="mb-14 rounded-2xl overflow-hidden border border-black/[0.08] bg-gradient-to-r from-[#230307] via-[#2F050C] to-[#3B070E] text-white shadow-[0_20px_45px_-12px_rgba(0,0,0,0.12),0_1px_3px_rgba(0,0,0,0.05)] ring-1 ring-black/[0.04] grid grid-cols-1 md:grid-cols-12 items-center group"
+        >
+          <div className="md:col-span-7 p-6 sm:p-8 lg:p-10 space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#F5B82E] text-xs font-semibold uppercase tracking-wider">
+              <span>Higher Tier Focus · Year 10 Acceleration</span>
+            </div>
+            <h3 className="font-heading text-2xl sm:text-3xl font-bold leading-tight">
+              Academic Excellence Grounded in Purpose & Character
+            </h3>
+            <p className="text-stone-300 text-sm sm:text-base leading-relaxed font-sans-body">
+              Our small 1:6 cohorts ensure students receive individual diagnostic attention, mastering complex algebra, organic chemistry, and critical literature analysis with confidence and biblical resilience.
+            </p>
+            <div className="flex flex-wrap gap-4 pt-2 text-xs font-medium text-stone-200">
+              <span className="flex items-center gap-1.5">
+                <CheckCircle className="w-4 h-4 text-[#F5B82E]" />
+                Edexcel, AQA & OCR Syllabi
+              </span>
+              <span className="flex items-center gap-1.5">
+                <CheckCircle className="w-4 h-4 text-[#F5B82E]" />
+                Weekly Guided Exam Practice
+              </span>
+            </div>
+          </div>
+          <div className="md:col-span-5 h-full min-h-[260px] relative overflow-hidden">
+            <img
+              src={IMAGES.gcseExcellence}
+              alt="Diverse multinational GCSE students studying with Christian academic focus at Lil-El Academy"
+              className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+              referrerPolicy="no-referrer"
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (!target.dataset.triedFallback) {
+                  target.dataset.triedFallback = "true";
+                  target.src = "/assets/images/christian_gcse_exam_excellence_1791265350656.jpg";
+                }
+              }}
+            />
+          </div>
+        </motion.div>
 
         {/* 4-Step Framework with Staggered Entrance */}
         <motion.div

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { X, Download, BookOpen, CheckCircle, ArrowRight, ShieldCheck, Calendar, Sparkles, Mail, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { IMAGES } from "../assets/images/index";
 
 interface ProspectusModalProps {
   isOpen: boolean;
@@ -102,6 +103,34 @@ export default function ProspectusModal({ isOpen, onClose }: ProspectusModalProp
           <div className="p-6 sm:p-8 space-y-6">
             {downloadStep === "form" ? (
               <form onSubmit={handleDownload} className="space-y-4">
+                {/* Apple-styled Prospectus Preview Card */}
+                <div className="flex items-center gap-4 p-3 rounded-xl bg-stone-50 border border-black/[0.06] shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+                  <div className="w-20 h-24 rounded-lg overflow-hidden shrink-0 shadow-sm border border-black/10 relative">
+                    <img
+                      src={IMAGES.heroStudents}
+                      alt="Lil-El Academy 2026/27 Prospectus Cover"
+                      className="w-full h-full object-cover"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (!target.dataset.triedFallback) {
+                          target.dataset.triedFallback = "true";
+                          target.src = "/assets/images/christian_academy_hero_students_1791265312556.jpg";
+                        }
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-1.5">
+                      <span className="text-[9px] font-bold text-white uppercase tracking-wider leading-none">2026/27</span>
+                    </div>
+                  </div>
+                  <div className="space-y-1 text-xs">
+                    <div className="font-semibold text-stone-900 text-sm">Official Academic Prospectus & Syllabus</div>
+                    <div className="text-stone-600 leading-relaxed">
+                      Complete guide to British KS1–KS4 curriculum, Year 10 early intervention, Christian ethos, and transparent tuition.
+                    </div>
+                  </div>
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wider mb-1.5">

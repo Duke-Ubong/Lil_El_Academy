@@ -1,6 +1,7 @@
 import React from "react";
 import { Users, HeartHandshake, ShieldCheck, Check, X } from "lucide-react";
 import { motion } from "motion/react";
+import { IMAGES } from "../assets/images/index";
 
 export default function WhyUs() {
   const comparison = [
@@ -114,13 +115,49 @@ export default function WhyUs() {
           </motion.div>
         </div>
 
+        {/* Apple-styled Visual Banner: 1:6 Cohort in Action */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.5 }}
+          className="mb-12 rounded-2xl overflow-hidden border border-black/[0.06] bg-white shadow-[0_16px_36px_-6px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.03)] ring-1 ring-black/[0.02] grid grid-cols-1 md:grid-cols-12 items-center group"
+        >
+          <div className="md:col-span-5 h-full min-h-[220px] relative overflow-hidden bg-stone-100">
+            <img
+              src={IMAGES.primaryPupils}
+              alt="Diverse primary students learning with Bible and workbooks in a 1:6 small cohort setting at Lil-El Academy"
+              className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+              referrerPolicy="no-referrer"
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (!target.dataset.triedFallback) {
+                  target.dataset.triedFallback = "true";
+                  target.src = "/assets/images/christian_primary_pupils_faith_1791265335743.jpg";
+                }
+              }}
+            />
+          </div>
+          <div className="md:col-span-7 p-6 sm:p-8 space-y-3">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#9B111E]">
+              The Proven 1:6 Standard
+            </span>
+            <h3 className="font-heading text-xl sm:text-2xl font-bold text-stone-900 leading-tight">
+              Every Child Heard, Known, and Inspired
+            </h3>
+            <p className="text-stone-600 text-xs sm:text-sm leading-relaxed font-sans-body">
+              In a crowded classroom of 30, quiet students fade into the background. In Lil-El’s 1:6 cohorts, every pupil answers questions, solves problems on the live interactive whiteboard, and receives immediate guidance in every single lesson.
+            </p>
+          </div>
+        </motion.div>
+
         {/* Clean Side-by-Side Comparison Table with Scroll Entrance */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.6 }}
-          className="bg-white rounded-2xl border border-stone-200/90 overflow-hidden shadow-xs hover:shadow-md transition-shadow"
+          className="bg-white rounded-2xl border border-black/[0.06] overflow-hidden shadow-[0_10px_30px_-5px_rgba(0,0,0,0.05)] ring-1 ring-black/[0.02]"
         >
           <div className="p-6 border-b border-stone-200/80 bg-stone-50/70">
             <h3 className="font-heading text-lg font-bold text-stone-900">

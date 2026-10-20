@@ -40,8 +40,8 @@ const steps: Step[] = [
     step: "04",
     timeframe: "Days 4 – 5",
     title: "Roadmap & Cohort Placement",
-    summary: "Receive a personalized 12-week growth plan and join your small group (max 6).",
-    details: "Your child is matched with an intimate cohort of compatible peers and begins interactive live lessons with bi-weekly updates.",
+    summary: "Receive a personalized 12-week growth plan and join your small group (max 4–5, 1:4/5 ratio).",
+    details: "Your child is matched with an intimate cohort of compatible peers and begins interactive live lessons with monthly diagnostic reports and quarterly reviews.",
     icon: Users,
   },
 ];

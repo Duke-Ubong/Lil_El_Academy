@@ -71,7 +71,7 @@ export default function ParentInquiryForm() {
 
       if (!response.ok || !data.success) {
         throw new Error(
-          data.error || "Unable to send inquiry. Please call +44 7768 639106 or email info@lilelacademy.com."
+          data.error || "Unable to send inquiry. Please call +44 7768 639106 or email admissions@lilelacademy.com."
         );
       }
 
@@ -158,7 +158,7 @@ export default function ParentInquiryForm() {
                 <motion.a
                   whileHover={{ scale: 1.02, x: 3 }}
                   transition={{ duration: 0.2 }}
-                  href="mailto:info@lilelacademy.com"
+                  href="mailto:admissions@lilelacademy.com"
                   className="flex items-center gap-3 p-3.5 rounded-xl bg-white border border-stone-200/80 hover:border-[#4A0E17]/40 hover:shadow-sm transition-all group"
                 >
                   <div className="w-9 h-9 rounded-lg bg-[#4A0E17]/10 text-[#4A0E17] flex items-center justify-center shrink-0 group-hover:bg-[#4A0E17] group-hover:text-white transition-colors">
@@ -167,7 +167,7 @@ export default function ParentInquiryForm() {
                   <div>
                     <div className="text-stone-500 text-[11px]">Admissions Email</div>
                     <div className="font-semibold text-stone-900 group-hover:text-[#4A0E17] transition-colors">
-                      info@lilelacademy.com
+                      admissions@lilelacademy.com
                     </div>
                   </div>
                 </motion.a>
@@ -181,7 +181,7 @@ export default function ParentInquiryForm() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Check className="w-3.5 h-3.5 text-emerald-800 shrink-0" />
-                  <span>Strict small group caps (maximum 6 learners per cohort)</span>
+                  <span>Strict small group caps (maximum 4–5 learners per cohort, 1:4/5 ratio)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Check className="w-3.5 h-3.5 text-emerald-800 shrink-0" />

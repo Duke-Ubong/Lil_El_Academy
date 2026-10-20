@@ -12,12 +12,12 @@ const pillars: Pillar[] = [
     desc: "We cultivate resilience, moral discernment, intellectual humility, and holy ambition, teaching every child as uniquely gifted by God.",
   },
   {
-    title: "Strict Maximum of 6 Students",
-    desc: "Overcrowded 30-student classes leave quiet children behind. Our 6-learner groups guarantee your child is heard, guided, and challenged in every lesson.",
+    title: "Strict Maximum of 4–5 Students (1:4/5 Ratio)",
+    desc: "Overcrowded 30-student classes leave quiet children behind. Our 4–5 learner groups guarantee your child is heard, guided, and challenged in every lesson.",
   },
   {
     title: "Parent Partnership & Transparency",
-    desc: "You are never left guessing. Receive clear bi-weekly diagnostic progress reports and direct messaging with your child’s subject specialist.",
+    desc: "You are never left guessing. Receive clear monthly diagnostic progress reports and quarterly parent reviews alongside direct messaging with your child’s subject specialist.",
   },
   {
     title: "12-Week Child Growth Roadmaps",
@@ -111,7 +111,7 @@ export default function WhyLilEl() {
                   <tr>
                     <td className="py-3 px-3 font-semibold text-stone-800">Class Size</td>
                     <td className="py-3 px-3 text-stone-500">30+ students (quiet children overlooked)</td>
-                    <td className="py-3 px-3 bg-[#FAF5EB] font-bold text-[#163A24]">Strict maximum of 6 learners</td>
+                    <td className="py-3 px-3 bg-[#FAF5EB] font-bold text-[#163A24]">Strict maximum of 4–5 learners (1:4/5 ratio)</td>
                   </tr>
                   <tr>
                     <td className="py-3 px-3 font-semibold text-stone-800">Values & Ethos</td>
@@ -121,7 +121,7 @@ export default function WhyLilEl() {
                   <tr>
                     <td className="py-3 px-3 font-semibold text-stone-800">Parent Communication</td>
                     <td className="py-3 px-3 text-stone-500">1 or 2 brief parents' evenings per year</td>
-                    <td className="py-3 px-3 bg-[#FAF5EB] font-bold text-[#163A24]">Bi-weekly diagnostic reports & direct tutor contact</td>
+                    <td className="py-3 px-3 bg-[#FAF5EB] font-bold text-[#163A24]">Monthly diagnostic reports & quarterly reviews</td>
                   </tr>
                   <tr>
                     <td className="py-3 px-3 font-semibold text-stone-800">GCSE Intervention</td>

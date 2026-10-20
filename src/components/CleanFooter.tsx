@@ -47,8 +47,8 @@ export default function CleanFooter() {
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-[#D4AF37]" />
-                <a href="mailto:info@lilelacademy.com" className="hover:text-white">
-                  info@lilelacademy.com
+                <a href="mailto:admissions@lilelacademy.com" className="hover:text-white">
+                  admissions@lilelacademy.com
                 </a>
               </div>
               <div className="flex items-start gap-2 pt-1 text-stone-400 text-[11px]">
@@ -78,7 +78,7 @@ export default function CleanFooter() {
           <div className="flex items-center gap-4 text-stone-400">
             <span>Enhanced DBS Verified Tutors</span>
             <span>•</span>
-            <span>Maximum 6 per Cohort</span>
+            <span>Maximum 4–5 per Cohort</span>
             <span>•</span>
             <span>Parent Alliance</span>
           </div>

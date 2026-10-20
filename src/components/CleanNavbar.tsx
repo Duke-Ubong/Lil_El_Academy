@@ -40,11 +40,11 @@ export default function CleanNavbar() {
               <span>+44 7768 639106</span>
             </a>
             <a
-              href="mailto:info@lilelacademy.com"
+              href="mailto:admissions@lilelacademy.com"
               className="hidden md:inline-flex items-center gap-1.5 text-stone-700 hover:text-[#7B182B] transition-colors"
             >
               <Mail className="w-3.5 h-3.5 text-[#5A0F1D]" />
-              <span>info@lilelacademy.com</span>
+              <span>admissions@lilelacademy.com</span>
             </a>
           </div>
         </div>

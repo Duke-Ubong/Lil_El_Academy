@@ -20,9 +20,9 @@ const virtualFeatures = [
   {
     id: "micro-cohort",
     icon: Users,
-    tag: "Maximum 6 Learners",
-    title: "Dedicated 1:6 Cohort Advantage",
-    desc: "In mainstream classrooms of 30+ students, quiet learners get overlooked and misconceptions compound. At Lil-El Academy, every cohort is capped at 6 students. Every learner participates in every session.",
+    tag: "Maximum 4–5 Learners",
+    title: "Dedicated 1:4/5 Cohort Advantage",
+    desc: "In mainstream classrooms of 30+ students, quiet learners get overlooked and misconceptions compound. At Lil-El Academy, every cohort is capped strictly at 4–5 students (1:4/5 ratio). Every learner participates in every session.",
     keyPoints: [
       "No child gets left behind or hides at the back",
       "Personalised feedback on every written assignment within 48 hours",
@@ -46,12 +46,12 @@ const virtualFeatures = [
   {
     id: "parent-portal",
     icon: BarChart3,
-    tag: "Weekly Transparency",
-    title: "Weekly Parent Progress Portal",
-    desc: "Education is a partnership. Parents receive concise weekly updates on attendance, diagnostic topic mastery, homework completion, and mentor notes so you are always fully informed.",
+    tag: "Monthly & Quarterly",
+    title: "Monthly Reports & Quarterly Reviews",
+    desc: "Education is a partnership. Parents receive detailed monthly diagnostic reports and dedicated quarterly review consultations covering attendance, topic mastery, homework turnaround, and mentor insights.",
     keyPoints: [
-      "Weekly diagnostic milestone scores sent directly to your inbox",
-      "Clear early alerts if a student struggles with specific concepts",
+      "Monthly diagnostic milestone reports sent directly to your inbox",
+      "Quarterly parent-tutor review sessions to celebrate growth and align targets",
       "Direct line of communication with your child's dedicated tutor",
     ],
     stat: "99% Parent Satisfaction on Communication",
@@ -194,7 +194,7 @@ export default function VirtualClassroomShowcase() {
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-emerald-400 text-[11px] font-semibold">Live 1:6 Session</span>
+                  <span className="text-emerald-400 text-[11px] font-semibold">Live 1:4/5 Session</span>
                 </div>
               </div>
 

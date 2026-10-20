@@ -33,13 +33,13 @@ export default function ProspectusModal({ isOpen, onClose }: ProspectusModalProp
         `Parent Name: ${parentName || "Valued Parent"}\n` +
         `Child Year: ${childYear}\n` +
         `Admissions Hotline: +44 7768 639106\n` +
-        `Admissions Email: info@lilelacademy.com\n\n` +
+        `Admissions Email: admissions@lilelacademy.com\n\n` +
         `CORE PILLARS:\n` +
-        `1. Strict 1:6 Cohort Size Guarantee\n` +
+        `1. Strict 1:4/5 Cohort Size Guarantee (Max 4–5 Students)\n` +
         `2. DBS-Certified Subject Specialists\n` +
         `3. Year 10 Early GCSE Intervention (AQA / Edexcel)\n` +
         `4. Christ-Centred Moral Foundation & Character\n` +
-        `5. 24/7 Recorded Revision Vault & Weekly Parent Reports\n\n` +
+        `5. 24/7 Recorded Revision Vault, Monthly Diagnostic Reports & Quarterly Parent Reviews\n\n` +
         `TUITION STRUCTURE:\n` +
         `- 1 Core Subject: £115 / month (2 hrs weekly live + past paper drills)\n` +
         `- 2 Core Subjects: £215 / month\n` +
@@ -95,7 +95,7 @@ export default function ProspectusModal({ isOpen, onClose }: ProspectusModalProp
               Lil-El Academy Official Prospectus
             </h3>
             <p className="text-white/80 text-sm max-w-lg leading-relaxed">
-              Explore our curriculum framework, teaching methodology, 1:6 cohort guarantee, timetable, and transparent tuition structure.
+              Explore our curriculum framework, teaching methodology, 1:4/5 cohort guarantee, timetable, and transparent tuition structure.
             </p>
           </div>
 

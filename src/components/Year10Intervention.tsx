@@ -17,7 +17,7 @@ const steps = [
   {
     number: "03",
     title: "Targeted Masterclasses",
-    desc: "Interactive live classes capped strictly at 6 students where misconceptions are resolved in real time.",
+    desc: "Interactive live classes capped strictly at 4–5 students (1:4/5 ratio) where misconceptions are resolved in real time.",
   },
   {
     number: "04",
@@ -129,7 +129,7 @@ export default function Year10Intervention() {
               Academic Excellence Grounded in Purpose & Character
             </h3>
             <p className="text-stone-300 text-sm sm:text-base leading-relaxed font-sans-body">
-              Our small 1:6 cohorts ensure students receive individual diagnostic attention, mastering complex algebra, organic chemistry, and critical literature analysis with confidence and biblical resilience.
+              Our small 1:4/5 cohorts ensure students receive individual diagnostic attention, mastering complex algebra, organic chemistry, and critical literature analysis with confidence and biblical resilience.
             </p>
             <div className="flex flex-wrap gap-4 pt-2 text-xs font-medium text-stone-200">
               <span className="flex items-center gap-1.5">

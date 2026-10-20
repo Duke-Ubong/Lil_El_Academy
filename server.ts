@@ -132,7 +132,7 @@ async function startServer() {
       const smtpUser = process.env.SMTP_USER?.trim();
       let smtpPass = process.env.SMTP_PASS?.trim();
       const smtpSecure = process.env.SMTP_SECURE === "true";
-      const destinationEmail = process.env.CONTACT_EMAIL_TO?.trim() || "info@lilelacademy.com";
+      const destinationEmail = process.env.CONTACT_EMAIL_TO?.trim() || "admissions@lilelacademy.com";
       const fromEmail =
         process.env.CONTACT_EMAIL_FROM?.trim() || `Lil-El Academy Admissions <${smtpUser || "admissions@lilelacademy.com"}>`;
 
@@ -316,7 +316,7 @@ Website: https://www.lilelacademy.com
       console.error("API error handling contact form:", error);
       return res.status(500).json({
         success: false,
-        error: "An internal server error occurred. Please try again later or contact info@lilelacademy.com directly.",
+        error: "An internal server error occurred. Please try again later or contact admissions@lilelacademy.com directly.",
       });
     }
   });

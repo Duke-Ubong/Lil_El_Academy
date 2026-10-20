@@ -88,7 +88,7 @@ export default function Navbar({ onOpenProspectus }: NavbarProps) {
             <span className="font-semibold text-[#F5B82E] tracking-wide">Lil-El Academy UK</span>
             <span className="text-white/20 hidden sm:inline">|</span>
             <span className="text-stone-300 hidden sm:inline text-[13px]">
-              Online Christian Supplementary School • Key Stages 1 to 4 • 1:6 Cohorts
+              Online Christian Supplementary School • Key Stages 1 to 4 • 1:4/5 Cohorts
             </span>
           </div>
 
@@ -101,11 +101,11 @@ export default function Navbar({ onOpenProspectus }: NavbarProps) {
               <span>Admissions Hotline: +44 7768 639106</span>
             </a>
             <a
-              href="mailto:info@lilelacademy.com"
+              href="mailto:admissions@lilelacademy.com"
               className="hidden md:inline-flex items-center gap-1.5 text-stone-200 hover:text-[#F5B82E] font-medium transition-colors"
             >
               <Mail className="w-3.5 h-3.5 text-[#F5B82E]" />
-              <span>info@lilelacademy.com</span>
+              <span>admissions@lilelacademy.com</span>
             </a>
           </div>
         </div>

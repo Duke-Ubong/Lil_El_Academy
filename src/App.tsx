@@ -49,7 +49,7 @@ export default function App() {
         {/* 7. Institutional Ethos: Vision, Mission & 4 Commitments */}
         <AboutUs />
 
-        {/* 8. The Lil-El Distinction: Strict 1:6 Cohort vs Mainstream 30+ Classrooms */}
+        {/* 8. The Lil-El Distinction: Strict 1:4/5 Cohort vs Mainstream 30+ Classrooms */}
         <WhyUs />
 
         {/* 9. Parent Community & Pastoral Care: Verified Reviews & Partnership */}

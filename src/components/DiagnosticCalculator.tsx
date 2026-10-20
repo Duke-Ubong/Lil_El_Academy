@@ -25,7 +25,7 @@ const presets: Record<string, PathwayPreset> = {
     projection: {
       gradeIncrease: "+2 to +3 Grades",
       timeline: "12 to 18 Months (Ahead of Year 11 Mocks)",
-      cohortSize: "Max 6 Students",
+      cohortSize: "Max 4–5 Students (1:4/5)",
       focusArea: "Algebraic proof, examiner mark-scheme language, and complex multi-mark questions.",
       weeklyHours: "2 hours live online + 1 hour diagnostic practice",
     },
@@ -38,7 +38,7 @@ const presets: Record<string, PathwayPreset> = {
     projection: {
       gradeIncrease: "+15 Scaled Score Points",
       timeline: "12-Week Rapid Milestone Plan",
-      cohortSize: "Max 6 Students",
+      cohortSize: "Max 4–5 Students (1:4/5)",
       focusArea: "Fractions/decimals mastery, multi-step word problems, and formal grammatical analysis.",
       weeklyHours: "2 hours weekly in small groups",
     },
@@ -51,7 +51,7 @@ const presets: Record<string, PathwayPreset> = {
     projection: {
       gradeIncrease: "Protects Higher Tier Placement",
       timeline: "Continuous Academic Growth",
-      cohortSize: "Max 6 Students",
+      cohortSize: "Max 4–5 Students (1:4/5)",
       focusArea: "Preventing the Key Stage 3 attainment dip and securing strong analytical stamina.",
       weeklyHours: "2 hours weekly with live tutor feedback",
     },
@@ -127,7 +127,7 @@ export default function DiagnosticCalculator() {
             Academic Tuition & Pathway Calculator
           </h2>
           <p className="mt-3 text-sm sm:text-base text-stone-600 leading-relaxed font-sans-body">
-            Like top British online institutions, we believe in complete financial transparency. Estimate your child's weekly study plan or project their GCSE attainment curve with Lil-El's 1:6 small-cohort intervention.
+            Like top British online institutions, we believe in complete financial transparency. Estimate your child's weekly study plan or project their GCSE attainment curve with Lil-El's 1:4/5 small-cohort intervention.
           </p>
 
           {/* Mode Selector Tabs (Tuition vs Pathway) */}
@@ -319,7 +319,7 @@ export default function DiagnosticCalculator() {
                 <div className="font-semibold text-stone-200">Every enrolment includes:</div>
                 <div className="flex items-start gap-2 text-stone-300">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>{subjectCount * 2} hours weekly live interactive seminars in max 1:6 cohorts</span>
+                  <span>{subjectCount * 2} hours weekly live interactive seminars in max 1:4/5 cohorts</span>
                 </div>
                 <div className="flex items-start gap-2 text-stone-300">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
@@ -439,7 +439,7 @@ export default function DiagnosticCalculator() {
               </div>
 
               <div className="text-xs text-stone-500 leading-relaxed">
-                *Projections are modeled on 3+ terms of continuous 1:6 small-group coaching, homework turnaround, and diagnostic gap closure.
+                *Projections are modeled on 3+ terms of continuous 1:4/5 small-group coaching, homework turnaround, and diagnostic gap closure.
               </div>
             </div>
 

@@ -112,7 +112,7 @@ const stages: Stage[] = [
     },
     syllabusModal: {
       examBoards: "Year 6 Standard Assessment Tests (SATs) & Grammar School 11+ Benchmarks",
-      weeklyCadence: "3 Live Online Cohort Classes per week + Bi-Weekly Diagnostic Tests",
+      weeklyCadence: "3 Live Online Cohort Classes per week + Monthly Diagnostic Progress Assessments",
       modules: [
         {
           title: "Year 6 SATs Mathematics (Arithmetic & Reasoning)",
@@ -169,7 +169,7 @@ const stages: Stage[] = [
     },
     syllabusModal: {
       examBoards: "KS3 National Curriculum leading into AQA/Edexcel GCSE Specifications",
-      weeklyCadence: "Flexible Evening & Saturday live cohorts (max 6 students)",
+      weeklyCadence: "Flexible Evening & Saturday live cohorts (max 4–5 students, 1:4/5 ratio)",
       modules: [
         {
           title: "Bridging to Higher GCSE Maths",
@@ -282,7 +282,7 @@ export default function Curriculum() {
             Curriculum from KS1 to KS4
           </h2>
           <p className="text-sm text-stone-600 leading-relaxed">
-            Aligned with the UK National Curriculum and GCSE exam specifications, delivered in live interactive cohorts capped at 6 students.
+            Aligned with the UK National Curriculum and GCSE exam specifications, delivered in live interactive cohorts capped strictly at 4–5 students (1:4/5 ratio).
           </p>
         </motion.div>
 
@@ -332,7 +332,7 @@ export default function Curriculum() {
                   <span>{activeStage.ages}</span>
                   <span className="text-stone-300">·</span>
                   <span className="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                    Max 1:6 Cohort
+                    Max 1:4/5 Cohort
                   </span>
                 </div>
                 <h3 className="font-heading text-2xl sm:text-3xl font-bold text-stone-900">
@@ -383,7 +383,7 @@ export default function Curriculum() {
                     }}
                   />
                   <div className="absolute bottom-3 left-3 right-3 bg-black/65 backdrop-blur-md text-white px-3 py-1.5 rounded-xl text-[11px] font-medium text-center border border-white/10 shadow-sm">
-                    {activeStage.name} ({activeStage.ages}) · Christian Ethos & 1:6 Cohort
+                    {activeStage.name} ({activeStage.ages}) · Christian Ethos & 1:4/5 Cohort
                   </div>
                 </div>
               </div>
@@ -469,7 +469,7 @@ export default function Curriculum() {
             {/* Bottom Cohort & CTA Strip */}
             <div className="pt-4 border-t border-stone-100 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="text-xs text-stone-600 text-center sm:text-left">
-                Every cohort includes integrated Christian worldview mentorship and bi-weekly diagnostic updates.
+                Every cohort includes integrated Christian worldview mentorship, monthly diagnostic reports, and quarterly parent reviews.
               </div>
               <motion.a
                 whileHover={{ scale: 1.02, y: -1 }}

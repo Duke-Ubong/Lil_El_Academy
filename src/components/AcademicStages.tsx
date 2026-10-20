@@ -212,8 +212,8 @@ export default function AcademicStages() {
                     <span>The Lil-El Guarantee:</span>
                   </div>
                   <ul className="space-y-1.5 text-stone-700">
-                    <li>• Maximum 6 learners per interactive group</li>
-                    <li>• Bi-weekly diagnostic reports to your inbox</li>
+                    <li>• Maximum 4–5 learners per interactive group (1:4/5 ratio)</li>
+                    <li>• Monthly diagnostic reports & quarterly reviews to your inbox</li>
                     <li>• DBS-checked Christian specialist educators</li>
                   </ul>
                 </div>

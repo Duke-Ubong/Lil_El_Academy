@@ -20,7 +20,7 @@ const testimonials = [
   },
   {
     quote:
-      "The weekly diagnostic updates are invaluable. We actually see which topics she mastered and where she needs practice for her SATs. It feels like a genuine educational partnership.",
+      "The monthly diagnostic reports and quarterly reviews are invaluable. We actually see which topics she mastered and where she needs practice for her SATs. It feels like a genuine educational partnership.",
     author: "Pastor David & Miriam E.",
     role: "Parents of Ruth (KS2 SATs Preparation)",
     outcome: "114 Scaled Score in Reading & Maths",
@@ -48,7 +48,7 @@ export default function ParentPartnership() {
             Trusted by Families Across the United Kingdom
           </h2>
           <p className="text-stone-600 text-base sm:text-lg leading-relaxed font-sans-body max-w-2xl mx-auto">
-            Education thrives when parents and teachers work hand in hand. Hear how our 1:6 cohort model and Christian mentorship transform academic performance and self-belief.
+            Education thrives when parents and teachers work hand in hand. Hear how our 1:4/5 cohort model and Christian mentorship transform academic performance and self-belief.
           </p>
         </motion.div>
 
@@ -74,7 +74,7 @@ export default function ParentPartnership() {
             {/* Apple-style Frosted Overlay Badges */}
             <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-black/[0.06] shadow-sm flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span className="text-xs font-semibold text-stone-900">Pastoral Care & Weekly Progress</span>
+              <span className="text-xs font-semibold text-stone-900">Pastoral Care & Monthly Progress Reports</span>
             </div>
 
             <div className="absolute bottom-4 right-4 bg-black/65 backdrop-blur-md border border-white/15 px-3.5 py-2 rounded-xl text-white shadow-lg text-right">
@@ -93,12 +93,12 @@ export default function ParentPartnership() {
                 <span className="ml-2 text-xs font-bold text-stone-700">4.9 / 5.0 Parent Trust</span>
               </div>
               <h3 className="font-heading text-2xl sm:text-3xl font-bold text-stone-900 leading-snug">
-                "No child is invisible when every class has only six students."
+                "No child is invisible when every class has only four to five students."
               </h3>
             </div>
 
             <p className="text-stone-600 text-sm sm:text-base leading-relaxed font-sans-body">
-              Unlike mainstream schools where large classes of 30 pupils make individualized coaching impossible, our small groups ensure every question is answered immediately. Parents are not left guessing; you receive concise weekly insights on your child's progress, strengths, and targeted improvement areas.
+              Unlike mainstream schools where large classes of 30 pupils make individual coaching impossible, our small 1:4/5 groups ensure every question is answered immediately. Parents are not left guessing; you receive comprehensive monthly diagnostic reports and dedicated quarterly reviews to celebrate progress and target gaps.
             </p>
 
             <div className="grid grid-cols-2 gap-4 pt-2">

@@ -19,7 +19,7 @@ const previewCohorts = [
       "Examiner-level mark scheme writing drills",
       "Prevents Year 11 panic and foundation tier capping",
     ],
-    schedule: "Autumn 2026 Cohorts · 1:6 Ratio",
+    schedule: "Autumn 2026 Cohorts · 1:4/5 Ratio",
     statBadge: "+2.1 Avg Grade Elevation",
   },
   {
@@ -43,7 +43,7 @@ const previewCohorts = [
     title: "Core Literacy, Numeracy & SATs Excellence",
     description: "Nurturing deep curiosity, phonics reading fluency, multiplication mastery, and Year 6 SATs preparation in a warm, faith-filled setting.",
     highlights: [
-      "Strict 1:6 small group nurturing environment",
+      "Strict 1:4/5 small group nurturing environment",
       "Mental maths, SPaG & reading comprehension",
       "Christian moral foundations & character building",
     ],
@@ -114,7 +114,7 @@ export default function Hero({ onOpenProspectus }: HeroProps) {
 
             {/* Subheading / Value Proposition */}
             <motion.p variants={itemVariants} className="text-stone-600 text-base sm:text-lg max-w-xl font-sans-body leading-relaxed">
-              Empowering multinational students across the UK in <strong className="text-stone-900 font-semibold">Maths, English, and Sciences</strong> with a foundational <strong className="text-stone-900 font-semibold">Christian worldview</strong>. With live micro-classes (strict max 6 learners) and specialized <strong className="text-[#9B111E] font-semibold">Year 10 Early Intervention</strong>, your child receives the individual focus they deserve.
+              Empowering multinational students across the UK in <strong className="text-stone-900 font-semibold">Maths, English, and Sciences</strong> with a foundational <strong className="text-stone-900 font-semibold">Christian worldview</strong>. With live micro-classes (strict max 4–5 learners) and specialized <strong className="text-[#9B111E] font-semibold">Year 10 Early Intervention</strong>, your child receives the individual focus they deserve.
             </motion.p>
 
             {/* 3 Reassurance Checkmarks */}
@@ -123,7 +123,7 @@ export default function Hero({ onOpenProspectus }: HeroProps) {
                 <div className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0">
                   <Check className="w-3 h-3 stroke-[2.5]" />
                 </div>
-                <span>Strict 1:6 Class Size</span>
+                <span>Strict 1:4/5 Class Size</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0">
@@ -215,7 +215,7 @@ export default function Hero({ onOpenProspectus }: HeroProps) {
                 {/* Apple-style Frosted Glass Seminar Badge */}
                 <div className="absolute top-3.5 left-3.5 bg-black/60 backdrop-blur-md border border-white/20 px-3 py-1 rounded-xl text-white flex items-center gap-2 text-xs shadow-sm">
                   <span className="w-2 h-2 rounded-full bg-[#E21B2B] animate-pulse" />
-                  <span className="font-semibold text-stone-100 text-[11px] tracking-wide">Christian Ethos · 1:6 Cohorts</span>
+                  <span className="font-semibold text-stone-100 text-[11px] tracking-wide">Christian Ethos · 1:4/5 Cohorts</span>
                 </div>
 
                 {/* Floating Apple-style Grade Elevation Badge */}
@@ -337,7 +337,7 @@ export default function Hero({ onOpenProspectus }: HeroProps) {
                 <Users className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-xs font-bold uppercase tracking-wider text-white">Strict 1:6 Cohorts</div>
+                <div className="text-xs font-bold uppercase tracking-wider text-white">Strict 1:4/5 Cohorts</div>
                 <div className="text-[11px] text-white/70">Never Large Impersonal Zooms</div>
               </div>
             </div>

@@ -8,7 +8,7 @@ export default function WhyUs() {
     {
       feature: "Class Size",
       mainstream: "28 to 34 students per classroom",
-      lilel: "Strictly capped at 6 students",
+      lilel: "Strictly capped at 4–5 students (1:4/5 ratio)",
     },
     {
       feature: "Student Participation",
@@ -23,7 +23,7 @@ export default function WhyUs() {
     {
       feature: "Parent Communication",
       mainstream: "Termly or once-yearly parents' evening",
-      lilel: "Bi-weekly diagnostic progress updates",
+      lilel: "Monthly diagnostic reports & quarterly parent reviews",
     },
     {
       feature: "Exam Preparation",
@@ -69,10 +69,10 @@ export default function WhyUs() {
               01
             </div>
             <h3 className="font-semibold text-stone-900 text-lg">
-              Intimate 1:6 Cohorts
+              Intimate 1:4/5 Cohorts
             </h3>
             <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
-              Quiet students can easily hide in a class of 30. Our maximum ratio of 1:6 guarantees every child contributes and receives personalized feedback in every lesson.
+              Quiet students can easily hide in a class of 30. Our maximum ratio of 1:4 to 1:5 guarantees every child contributes and receives personalized feedback in every lesson.
             </p>
           </motion.div>
 
@@ -107,15 +107,15 @@ export default function WhyUs() {
               03
             </div>
             <h3 className="font-semibold text-stone-900 text-lg">
-              Bi-Weekly Parent Reports
+              Monthly Parent Reports & Quarterly Reviews
             </h3>
             <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
-              No guessing where your child stands. Regular diagnostic updates show exact curriculum mastery, practice goals, and milestones achieved.
+              No guessing where your child stands. Detailed monthly diagnostic reports track curriculum mastery, complemented by dedicated quarterly parent reviews to celebrate growth.
             </p>
           </motion.div>
         </div>
 
-        {/* Apple-styled Visual Banner: 1:6 Cohort in Action */}
+        {/* Apple-styled Visual Banner: 1:4/5 Cohort in Action */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -126,7 +126,7 @@ export default function WhyUs() {
           <div className="md:col-span-5 h-full min-h-[220px] relative overflow-hidden bg-stone-100">
             <img
               src={IMAGES.primaryPupils}
-              alt="Diverse primary students learning with Bible and workbooks in a 1:6 small cohort setting at Lil-El Academy"
+              alt="Diverse primary students learning with Bible and workbooks in a 1:4/5 small cohort setting at Lil-El Academy"
               className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
               referrerPolicy="no-referrer"
               onError={(e) => {
@@ -140,13 +140,13 @@ export default function WhyUs() {
           </div>
           <div className="md:col-span-7 p-6 sm:p-8 space-y-3">
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#9B111E]">
-              The Proven 1:6 Standard
+              The Proven 1:4/5 Standard
             </span>
             <h3 className="font-heading text-xl sm:text-2xl font-bold text-stone-900 leading-tight">
               Every Child Heard, Known, and Inspired
             </h3>
             <p className="text-stone-600 text-xs sm:text-sm leading-relaxed font-sans-body">
-              In a crowded classroom of 30, quiet students fade into the background. In Lil-El’s 1:6 cohorts, every pupil answers questions, solves problems on the live interactive whiteboard, and receives immediate guidance in every single lesson.
+              In a crowded classroom of 30, quiet students fade into the background. In Lil-El’s 1:4/5 cohorts, every pupil answers questions, solves problems on the live interactive whiteboard, and receives immediate guidance in every single lesson.
             </p>
           </div>
         </motion.div>

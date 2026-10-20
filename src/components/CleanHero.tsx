@@ -27,7 +27,7 @@ export default function CleanHero() {
             </h1>
 
             <p className="text-stone-600 text-lg sm:text-xl font-sans-body leading-relaxed max-w-2xl font-normal">
-              Empowering children across the UK with rigorous, Christ-centred online tuition in <strong>Maths, English, and Science</strong>. Strictly capped at 6 students per cohort with targeted <strong>Year 10 Early GCSE Intervention</strong>.
+              Empowering children across the UK with rigorous, Christ-centred online tuition in <strong>Maths, English, and Science</strong>. Strictly capped at 4–5 students per cohort (1:4/5 ratio) with targeted <strong>Year 10 Early GCSE Intervention</strong>.
             </p>
 
             {/* Quick 3-Key Value Pills */}
@@ -35,7 +35,7 @@ export default function CleanHero() {
               <div className="p-3 rounded-2xl bg-[#FAF9F6] border border-stone-200 text-xs space-y-1">
                 <div className="font-bold text-[#163A24] flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-[#163A24] shrink-0" />
-                  <span>Max 6 Learners</span>
+                  <span>Max 4–5 Learners</span>
                 </div>
                 <p className="text-stone-500">Every child actively participates and is heard.</p>
               </div>
@@ -131,8 +131,8 @@ export default function CleanHero() {
                     3
                   </div>
                   <div>
-                    <div className="text-xs font-bold text-white">Live Cohort of 6 Students</div>
-                    <div className="text-[11px] text-stone-300">Engaging weekly instruction with bi-weekly progress reports for parents.</div>
+                    <div className="text-xs font-bold text-white">Live Cohort of 4–5 Students (1:4/5)</div>
+                    <div className="text-[11px] text-stone-300">Engaging weekly instruction with monthly progress reports and quarterly reviews for parents.</div>
                   </div>
                 </div>
               </div>

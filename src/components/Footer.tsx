@@ -82,8 +82,8 @@ export default function Footer({ onOpenProspectus }: FooterProps) {
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-[#F5B82E] shrink-0" />
-                <a href="mailto:info@lilelacademy.com" className="hover:text-white transition-colors font-medium">
-                  info@lilelacademy.com
+                <a href="mailto:admissions@lilelacademy.com" className="hover:text-white transition-colors font-medium">
+                  admissions@lilelacademy.com
                 </a>
               </div>
               <div className="pt-2">

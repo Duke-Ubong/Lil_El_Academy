@@ -16,7 +16,7 @@ export default function CleanTestimonials() {
     },
     {
       quote:
-        "We receive bi-weekly diagnostic updates showing exact gaps covered. It operates like a true partnership with parents, completely aligned with the Christian values we cherish at home.",
+        "We receive monthly diagnostic reports and quarterly reviews showing exact gaps covered. It operates like a true partnership with parents, completely aligned with the Christian values we cherish at home.",
       parent: "Pastor David E.",
       detail: "Miriam's Father (KS2 SATs Masterclass)",
     },

@@ -6,8 +6,8 @@ import { IMAGES } from "../assets/images/index";
 const pillars = [
   {
     icon: Users,
-    title: "Small Groups (Max 6)",
-    description: "Every child is heard and coached actively in an intimate setting where questions are always welcomed.",
+    title: "Small Groups (Max 4–5)",
+    description: "Every child is heard and coached actively in an intimate setting (1:4/5 ratio) where questions are always welcomed.",
   },
   {
     icon: Compass,
@@ -22,7 +22,7 @@ const pillars = [
   {
     icon: HeartHandshake,
     title: "Parent Partnership",
-    description: "Bi-weekly diagnostic reports and transparent roadmaps ensure you are always in the loop.",
+    description: "Monthly diagnostic reports and quarterly parent reviews ensure you are always informed and aligned.",
   },
 ];
 

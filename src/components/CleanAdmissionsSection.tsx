@@ -147,7 +147,7 @@ export default function CleanAdmissionsSection() {
                 <div>
                   <h4 className="font-heading font-bold text-stone-900 text-sm">Small Cohort Placement</h4>
                   <p className="text-xs text-stone-600 mt-0.5 leading-relaxed">
-                    We place your child into an interactive cohort of maximum 6 learners, and tuition begins.
+                    We place your child into an interactive cohort of maximum 4–5 learners (1:4/5 ratio), and tuition begins.
                   </p>
                 </div>
               </div>

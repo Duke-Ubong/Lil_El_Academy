@@ -28,8 +28,8 @@ const pillars: Pillar[] = [
     desc: "We resolve learning dips a full year before GCSE panic sets in, building exam stamina, mark-scheme technique, and quiet confidence.",
   },
   {
-    title: "Fair, Transparent Supplementary Fees",
-    desc: "High-calibre Christian supplementary education without astronomical tuition fees or locked-in annual contracts.",
+    title: "Personalized Consultation & Support",
+    desc: "High-calibre Christian supplementary education tailored to your child's needs, with bespoke tuition details provided transparently during your consultation.",
   },
 ];
 

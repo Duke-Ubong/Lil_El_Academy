@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Calculator, ArrowRight, Sparkles, TrendingUp, CheckCircle2, ShieldCheck, CreditCard, PoundSterling, Users, BookOpen, Clock, Award } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
+import { ArrowRight, Sparkles, TrendingUp, CheckCircle2, BookOpen, Clock, Phone, Mail, Compass, Users } from "lucide-react";
+import { motion } from "motion/react";
 
 interface PathwayPreset {
   stage: string;
@@ -58,21 +58,31 @@ const presets: Record<string, PathwayPreset> = {
   },
 };
 
-// King's InterHigh-style transparent pricing structure
-const pricingTiers: Record<string, { baseMonthly: number; stageName: string }> = {
-  "ks1-2": { baseMonthly: 95, stageName: "Primary (Key Stages 1 & 2)" },
-  "ks3": { baseMonthly: 110, stageName: "Middle School (Key Stage 3)" },
-  "ks4": { baseMonthly: 125, stageName: "GCSE & Year 10 (Key Stage 4)" },
+const studyPlanStages: Record<string, { stageName: string; focusDescription: string; recommendedCadence: string }> = {
+  "ks1-2": {
+    stageName: "Primary (Key Stages 1 & 2)",
+    focusDescription: "Phonics reading fluency, mental maths, SPaG mastery, and SATs / 11+ grammar preparation.",
+    recommendedCadence: "2 to 4 hours weekly in micro-cohorts",
+  },
+  "ks3": {
+    stageName: "Middle School (Key Stage 3)",
+    focusDescription: "Secondary transition, algebraic fluency, analytical literature, and core scientific inquiry.",
+    recommendedCadence: "3 to 6 hours weekly in micro-cohorts",
+  },
+  "ks4": {
+    stageName: "Upper School (GCSE & Year 10)",
+    focusDescription: "Year 10 early intervention, higher-tier mathematics, triple/combined sciences, and exam mark-scheme mastery.",
+    recommendedCadence: "4 to 8 hours weekly in micro-cohorts",
+  },
 };
 
 export default function DiagnosticCalculator() {
-  const [calculatorMode, setCalculatorMode] = useState<"tuition" | "pathway">("tuition");
+  const [calculatorMode, setCalculatorMode] = useState<"study-plan" | "pathway">("study-plan");
 
-  // Tuition Plan State
+  // Study Plan State
   const [selectedStageKey, setSelectedStageKey] = useState<string>("ks4");
   const [subjectCount, setSubjectCount] = useState<number>(3);
-  const [billingCycle, setBillingCycle] = useState<"monthly" | "termly">("monthly");
-  const [siblingDiscount, setSiblingDiscount] = useState<boolean>(false);
+  const [learningPriority, setLearningPriority] = useState<string>("Higher Tier Mastery");
 
   // Grade Pathway Simulator State
   const [selectedPresetKey, setSelectedPresetKey] = useState<string>("ks4-y10");
@@ -87,18 +97,7 @@ export default function DiagnosticCalculator() {
   );
 
   const activePreset = presets[selectedPresetKey] || presets["ks4-y10"];
-
-  // Tuition calculation logic
-  const tier = pricingTiers[selectedStageKey] || pricingTiers["ks4"];
-  // Multi-subject package discount: 1 = 1x, 2 = 1.9x, 3 = 2.6x, 4 = 3.3x
-  const multiplier = subjectCount === 1 ? 1 : subjectCount === 2 ? 1.88 : subjectCount === 3 ? 2.55 : 3.2;
-  let rawMonthly = Math.round(tier.baseMonthly * multiplier);
-  if (siblingDiscount) {
-    rawMonthly = Math.round(rawMonthly * 0.85); // 15% sibling discount
-  }
-  const monthlyCost = rawMonthly;
-  // Termly is 3.5 months of tuition with 10% discount
-  const termlyCost = Math.round(monthlyCost * 3.5 * 0.9);
+  const currentStageInfo = studyPlanStages[selectedStageKey] || studyPlanStages["ks4"];
 
   const handleStageChange = (key: string) => {
     setSelectedPresetKey(key);
@@ -115,33 +114,34 @@ export default function DiagnosticCalculator() {
   };
 
   return (
-    <section id="tuition-calculator" className="scroll-mt-24 py-16 sm:py-24 bg-stone-50 border-b border-stone-200 overflow-hidden">
+    <section id="study-plan" className="scroll-mt-24 py-16 sm:py-24 bg-stone-50 border-b border-stone-200 overflow-hidden relative">
+      <span id="tuition-calculator" className="absolute -top-24 left-0 invisible pointer-events-none" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="max-w-3xl mb-10">
           <div className="text-xs font-bold uppercase tracking-wider text-[#9B111E] mb-2">
-            Transparent Planning & Fees
+            Study Planner & Academic Pathway
           </div>
           <h2 className="font-heading text-3xl sm:text-4xl font-bold text-stone-900 tracking-tight">
-            Academic Tuition & Pathway Calculator
+            Personalized Study Plan & Attainment Simulator
           </h2>
           <p className="mt-3 text-sm sm:text-base text-stone-600 leading-relaxed font-sans-body">
-            Like top British online institutions, we believe in complete financial transparency. Estimate your child's weekly study plan or project their GCSE attainment curve with Lil-El's 1:4/5 small-cohort intervention.
+            Every child's learning journey is unique. Select your child's key stage and subjects to configure their weekly learning schedule, or simulate their GCSE attainment trajectory. Detailed tuition arrangements and schedules are provided transparently upon personal consultation or verbal enquiry.
           </p>
 
-          {/* Mode Selector Tabs (Tuition vs Pathway) */}
+          {/* Mode Selector Tabs (Study Plan vs Pathway) */}
           <div className="inline-flex p-1 bg-stone-200/80 rounded-xl mt-6">
             <button
-              onClick={() => setCalculatorMode("tuition")}
+              onClick={() => setCalculatorMode("study-plan")}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
-                calculatorMode === "tuition"
+                calculatorMode === "study-plan"
                   ? "bg-white text-stone-900 shadow-sm"
                   : "text-stone-600 hover:text-stone-900"
               }`}
             >
-              <PoundSterling className="w-4 h-4 text-[#9B111E]" />
-              <span>Tuition Fee & Study Plan Calculator</span>
+              <Compass className="w-4 h-4 text-[#9B111E]" />
+              <span>Study Plan & Consultation Overview</span>
             </button>
             <button
               onClick={() => setCalculatorMode("pathway")}
@@ -157,8 +157,8 @@ export default function DiagnosticCalculator() {
           </div>
         </div>
 
-        {/* Tab 1: Transparent Tuition Calculator */}
-        {calculatorMode === "tuition" && (
+        {/* Tab 1: Study Plan & Consultation Overview (Zero Pricing) */}
+        {calculatorMode === "study-plan" && (
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -203,10 +203,10 @@ export default function DiagnosticCalculator() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <label className="text-xs font-bold uppercase tracking-wider text-stone-700">
-                    2. Core Subjects Included
+                    2. Core Subjects Required
                   </label>
                   <span className="text-xs font-medium text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                    {subjectCount === 3 ? "Most Popular GCSE Bundle" : `${subjectCount} Weekly Subjects`}
+                    {subjectCount === 3 ? "Standard Full Core Bundle" : `${subjectCount} Targeted Subject${subjectCount > 1 ? "s" : ""}`}
                   </span>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -232,91 +232,76 @@ export default function DiagnosticCalculator() {
                 </div>
               </div>
 
-              {/* 3. Billing Option & Sibling Discount */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-2">
-                    3. Payment Frequency
-                  </label>
-                  <div className="grid grid-cols-2 gap-2 bg-stone-100 p-1 rounded-xl">
+              {/* 3. Primary Academic Goal */}
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-stone-700">
+                  3. Primary Academic Focus
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  {[
+                    "Higher Tier Mastery & Top Grades",
+                    "Early Intervention & Confidence Rebuilding",
+                    "Exam Board Technique & Mock Preparation",
+                  ].map((goal) => (
                     <button
-                      onClick={() => setBillingCycle("monthly")}
-                      className={`py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-                        billingCycle === "monthly"
-                          ? "bg-white text-stone-900 shadow-sm"
-                          : "text-stone-600 hover:text-stone-900"
+                      key={goal}
+                      onClick={() => setLearningPriority(goal)}
+                      className={`p-3 rounded-xl border text-left text-xs transition-all cursor-pointer ${
+                        learningPriority === goal
+                          ? "border-[#9B111E] bg-[#9B111E]/5 font-bold text-stone-900 ring-1 ring-[#9B111E]"
+                          : "border-stone-200 text-stone-700 hover:border-stone-300 bg-stone-50/30"
                       }`}
                     >
-                      Monthly Flex
+                      {goal}
                     </button>
-                    <button
-                      onClick={() => setBillingCycle("termly")}
-                      className={`py-2 text-xs font-semibold rounded-lg transition-all flex items-center justify-center gap-1 cursor-pointer ${
-                        billingCycle === "termly"
-                          ? "bg-white text-stone-900 shadow-sm"
-                          : "text-stone-600 hover:text-stone-900"
-                      }`}
-                    >
-                      <span>Termly</span>
-                      <span className="text-[10px] text-emerald-700 font-bold bg-emerald-100 px-1.5 rounded">Save 10%</span>
-                    </button>
-                  </div>
+                  ))}
                 </div>
+              </div>
 
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-2">
-                    Family Concession
-                  </label>
-                  <label className="flex items-center gap-3 p-2.5 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer hover:bg-stone-50 transition-colors">
-                    <input
-                      type="checkbox"
-                      checked={siblingDiscount}
-                      onChange={(e) => setSiblingDiscount(e.target.checked)}
-                      className="w-4 h-4 text-[#9B111E] rounded focus:ring-[#9B111E]"
-                    />
-                    <div className="text-xs">
-                      <div className="font-semibold text-stone-900">Sibling Discount (15% Off)</div>
-                      <div className="text-stone-500 text-[11px]">Enrolling 2 or more siblings</div>
-                    </div>
-                  </label>
+              {/* Stage Diagnostic Description Callout */}
+              <div className="p-4 rounded-xl bg-stone-50 border border-stone-200/80 space-y-1">
+                <div className="text-xs font-bold text-stone-900 flex items-center gap-2">
+                  <BookOpen className="w-4 h-4 text-[#9B111E]" />
+                  <span>{currentStageInfo.stageName} Focus Overview</span>
+                </div>
+                <p className="text-xs text-stone-600 leading-relaxed">
+                  {currentStageInfo.focusDescription}
+                </p>
+                <div className="pt-1 text-[11px] font-semibold text-stone-700">
+                  Recommended Cadence: {currentStageInfo.recommendedCadence}
                 </div>
               </div>
 
             </div>
 
-            {/* Price Output & Inclusions Card in Logo Crimson Theme */}
+            {/* Study Plan Summary & Consultation Notice Card in Logo Crimson Theme */}
             <div className="lg:col-span-5 bg-[#240308] text-white rounded-2xl p-6 sm:p-7 space-y-6 relative overflow-hidden border border-[#4A0A12]">
               <div className="absolute top-0 right-0 -mr-16 -mt-16 w-48 h-48 bg-[#F5B82E]/15 rounded-full blur-2xl pointer-events-none" />
 
               <div>
                 <div className="flex items-center justify-between text-xs text-white/70 uppercase tracking-wider font-semibold mb-1">
-                  <span>Transparent Tuition</span>
-                  <span>No Registration Fees</span>
+                  <span>Custom Study Plan</span>
+                  <span className="text-[#F5B82E]">1:4/5 Micro-Cohorts</span>
                 </div>
                 <div className="text-sm font-medium text-stone-300">
-                  {tier.stageName} · {subjectCount} Subject{subjectCount > 1 ? "s" : ""}
+                  {currentStageInfo.stageName} · {subjectCount} Subject{subjectCount > 1 ? "s" : ""}
                 </div>
 
-                {/* Price Display */}
-                <div className="mt-4 flex items-baseline gap-2">
-                  <span className="font-heading text-4xl sm:text-5xl font-bold text-white tracking-tight">
-                    £{billingCycle === "monthly" ? monthlyCost : termlyCost}
-                  </span>
-                  <span className="text-stone-300 text-sm">
-                    / {billingCycle === "monthly" ? "month" : "term (3 terms / year)"}
-                  </span>
-                </div>
-
-                <div className="text-xs text-[#F5B82E] mt-1 font-medium">
-                  {billingCycle === "termly"
-                    ? `Includes 10% upfront discount (approx. £${Math.round(termlyCost / 3.5)}/mo)`
-                    : "Flexible rolling monthly agreement. Cancel anytime with 30 days notice."}
+                {/* Consultation Notice Display */}
+                <div className="mt-4 p-4 rounded-xl bg-white/5 border border-white/10 space-y-2">
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#F5B82E]">
+                    <Sparkles className="w-3.5 h-3.5 text-[#F5B82E]" />
+                    <span>Tuition via Consultation</span>
+                  </div>
+                  <p className="text-xs text-stone-200 leading-relaxed">
+                    Tuition fees and bespoke cohort placement are discussed directly during your initial complimentary diagnostic consultation or via verbal enquiry with our admissions office.
+                  </p>
                 </div>
               </div>
 
               {/* What is Included Checklist */}
-              <div className="space-y-2.5 pt-2 border-t border-white/10 text-xs">
-                <div className="font-semibold text-stone-200">Every enrolment includes:</div>
+              <div className="space-y-2.5 pt-1 border-t border-white/10 text-xs">
+                <div className="font-semibold text-stone-200">Every study plan includes:</div>
                 <div className="flex items-start gap-2 text-stone-300">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
                   <span>{subjectCount * 2} hours weekly live interactive seminars in max 1:4/5 cohorts</span>
@@ -327,25 +312,42 @@ export default function DiagnosticCalculator() {
                 </div>
                 <div className="flex items-start gap-2 text-stone-300">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Weekly written feedback on homework & past exam paper drills</span>
+                  <span>Monthly diagnostic progress reports & dedicated quarterly parent reviews</span>
                 </div>
                 <div className="flex items-start gap-2 text-stone-300">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Complimentary 45-minute baseline diagnostic assessment (£120 value)</span>
+                  <span>Weekly written examiner-style feedback on past paper drills</span>
+                </div>
+                <div className="flex items-start gap-2 text-stone-300">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                  <span>Complimentary 45-minute baseline diagnostic assessment</span>
                 </div>
               </div>
 
-              {/* Direct Enrollment CTA */}
-              <div className="pt-2">
+              {/* Direct Enrollment / Consultation CTA */}
+              <div className="pt-2 space-y-3">
                 <button
                   onClick={handleApplyToForm}
                   className="w-full py-3.5 px-6 rounded-xl bg-[#F5B82E] hover:bg-[#FFC72C] text-stone-950 font-bold text-sm transition-all shadow-md flex items-center justify-center gap-2 group cursor-pointer"
                 >
-                  <span>Select Plan & Book Free Diagnostic</span>
+                  <span>Request Consultation & Diagnostic Audit</span>
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </button>
-                <div className="text-center text-[11px] text-stone-400 mt-2">
-                  No payment required today · Free diagnostic first
+
+                {/* Verbal Enquiries Shortcut */}
+                <div className="p-3 rounded-xl bg-black/30 border border-white/10 text-center space-y-1">
+                  <div className="text-[11px] text-stone-300 font-medium">Prefer to enquire verbally?</div>
+                  <div className="flex items-center justify-center gap-3 text-xs font-semibold text-[#F5B82E]">
+                    <a href="tel:+447768639106" className="hover:underline flex items-center gap-1">
+                      <Phone className="w-3 h-3" />
+                      <span>+44 7768 639106</span>
+                    </a>
+                    <span className="text-white/30">•</span>
+                    <a href="mailto:admissions@lilelacademy.com" className="hover:underline flex items-center gap-1">
+                      <Mail className="w-3 h-3" />
+                      <span>admissions@lilelacademy.com</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -490,7 +492,7 @@ export default function DiagnosticCalculator() {
                   onClick={handleApplyToForm}
                   className="w-full py-3.5 px-6 rounded-xl bg-[#F5B82E] hover:bg-[#FFC72C] text-stone-950 font-bold text-sm transition-all shadow-md flex items-center justify-center gap-2 group cursor-pointer"
                 >
-                  <span>Book Free Baseline Diagnostic</span>
+                  <span>Book Free Baseline Diagnostic & Consultation</span>
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </button>
               </div>

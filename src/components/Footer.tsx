@@ -1,12 +1,8 @@
 import React from "react";
 import AcademyLogo from "./AcademyLogo";
-import { Phone, Mail, ArrowUpRight, Download } from "lucide-react";
+import { Phone, Mail, ArrowUpRight } from "lucide-react";
 
-interface FooterProps {
-  onOpenProspectus?: () => void;
-}
-
-export default function Footer({ onOpenProspectus }: FooterProps) {
+export default function Footer() {
   return (
     <footer className="bg-[#1C0306] text-stone-300 pt-16 pb-12 border-t border-[#4A0A12]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,15 +19,15 @@ export default function Footer({ onOpenProspectus }: FooterProps) {
             <div className="text-xs text-[#F5B82E] font-medium tracking-wide">
               Motto: Unlocking potentials, Inspiring Brilliance, building faith.
             </div>
-            {onOpenProspectus && (
-              <button
-                onClick={onOpenProspectus}
-                className="inline-flex items-center gap-2 text-xs font-semibold text-white/90 hover:text-[#F5B82E] underline decoration-[#F5B82E]/60 underline-offset-4 cursor-pointer"
+            <div className="pt-1">
+              <a
+                href="#inquiry-form"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#F5B82E] hover:underline cursor-pointer"
               >
-                <Download className="w-3.5 h-3.5 text-[#F5B82E]" />
-                <span>Download Official 2026/27 Prospectus (PDF)</span>
-              </button>
-            )}
+                <span>Book a Complimentary Consultation</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
           </div>
 
           {/* Academic Pathways (Cols 6-8) */}

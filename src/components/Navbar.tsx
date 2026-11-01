@@ -1,58 +1,79 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import AcademyLogo from "./AcademyLogo";
-import { Phone, Mail, Menu, X, ArrowRight, Download, BookOpen } from "lucide-react";
+import { Phone, Mail, Menu, X, ArrowRight, User, LogIn, LayoutDashboard, LogOut, Plus, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { useAuth } from "../context/AuthContext";
 
-interface NavbarProps {
-  onOpenProspectus?: () => void;
-}
+export default function Navbar() {
+  const {
+    user,
+    isAuthenticated,
+    activeChild,
+    openAuthModal,
+    openPortalView,
+    openChildOnboarding,
+    logout,
+  } = useAuth();
 
-export default function Navbar({ onOpenProspectus }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<string>("");
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setUserDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Navigation items strictly tallied with the chronological top-to-bottom body sections
   const navLinks = [
     { label: "How It Works", href: "#how-it-works" },
     { label: "Key Stages", href: "#curriculum" },
-    { label: "Year 10 Priority", href: "#year10" },
-    { label: "Tuition & Fees", href: "#tuition-calculator" },
-    { label: "Admissions", href: "#admissions" },
+    { label: "Year 10 Focus", href: "#year10" },
+    { label: "Study Planner", href: "#study-plan" },
+    { label: "Why Lil-El", href: "#why-us" },
     { label: "Reviews", href: "#partnership" },
   ];
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 15);
 
+      // Section IDs in exact vertical page order
       const sectionIds = [
         "how-it-works",
         "curriculum",
         "year10",
-        "tuition-calculator",
-        "admissions",
+        "study-plan",
+        "why-us",
         "partnership",
       ];
-      const headerOffset = 160;
-      const scrollPosition = window.scrollY + headerOffset;
+      const scrollPosition = window.scrollY + 160;
 
-      let found = "";
+      let currentFound = "";
       for (let i = sectionIds.length - 1; i >= 0; i--) {
         const el = document.getElementById(sectionIds[i]);
         if (el) {
           const top = el.offsetTop;
           if (scrollPosition >= top) {
-            found = sectionIds[i];
+            currentFound = sectionIds[i];
             break;
           }
         }
       }
 
-      if (window.scrollY < 250) {
+      if (window.scrollY < 200) {
         setActiveSection("");
-      } else if (found) {
-        setActiveSection(found);
+      } else if (currentFound) {
+        setActiveSection(currentFound);
       }
     };
 
@@ -62,26 +83,23 @@ export default function Navbar({ onOpenProspectus }: NavbarProps) {
   }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey) return;
     e.preventDefault();
     const targetId = href.replace("#", "");
     const targetElement = document.getElementById(targetId);
-    if (targetElement) {
-      const headerOffset = 90;
-      const elementPosition = targetElement.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
       setActiveSection(targetId);
       window.history.pushState(null, "", href);
+    } else {
+      window.location.hash = href;
     }
   };
 
   return (
     <header className="sticky top-0 z-40 w-full transition-all duration-300">
-      {/* Sleek Top Announcement & Quick Contact Strip in Logo Crimson Theme */}
+      {/* Top Quick Contact Strip in Logo Crimson Theme */}
       <div className="bg-[#2E0409] text-stone-200 text-xs py-2 px-4 sm:px-8 border-b border-[#5A0A14]">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2.5">
@@ -115,7 +133,7 @@ export default function Navbar({ onOpenProspectus }: NavbarProps) {
       <nav
         className={`w-full bg-white/95 backdrop-blur-md border-b transition-all duration-300 ${
           isScrolled
-            ? "border-stone-200 shadow-sm py-2.5"
+            ? "border-stone-200 shadow-xs py-2.5"
             : "border-stone-100 py-3.5"
         }`}
       >
@@ -123,7 +141,12 @@ export default function Navbar({ onOpenProspectus }: NavbarProps) {
           {/* Logo & Brand Identity */}
           <a
             href="#"
-            className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9B111E] rounded-lg"
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              window.history.pushState(null, "", "#");
+            }}
+            className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9B111E] rounded-lg shrink-0"
           >
             <AcademyLogo
               className="w-11 h-12 transition-transform duration-300 group-hover:scale-105"
@@ -132,8 +155,8 @@ export default function Navbar({ onOpenProspectus }: NavbarProps) {
             />
           </a>
 
-          {/* Desktop Navigation Links with animated hover and active indicator */}
-          <div className="hidden lg:flex items-center gap-7">
+          {/* Desktop Navigation Links (Clean, Simple, Tallied with Body) */}
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8">
             {navLinks.map((link) => {
               const targetId = link.href.replace("#", "");
               const isActive = activeSection === targetId;
@@ -147,19 +170,21 @@ export default function Navbar({ onOpenProspectus }: NavbarProps) {
                   onMouseEnter={() => setHoveredLink(link.href)}
                   onMouseLeave={() => setHoveredLink(null)}
                   aria-current={isActive ? "page" : undefined}
-                  className={`text-[14px] transition-colors relative py-1 cursor-pointer font-medium select-none ${
+                  className={`text-[13.5px] lg:text-[14px] transition-colors relative py-1 cursor-pointer select-none ${
                     isActive
                       ? "text-[#9B111E] font-semibold"
-                      : "text-stone-700 hover:text-[#9B111E]"
+                      : "text-stone-600 hover:text-stone-900 font-medium"
                   }`}
                 >
-                  <span>{link.label}</span>
+                  <div className="flex items-center gap-1.5 px-0.5">
+                    <span>{link.label}</span>
+                  </div>
 
                   {/* Active Indicator Underline */}
                   {isActive && (
                     <motion.div
                       layoutId="navActiveIndicator"
-                      className="absolute -bottom-0.5 left-0 right-0 h-[2.5px] bg-[#9B111E] rounded-full shadow-[0_1px_4px_rgba(155,17,30,0.25)]"
+                      className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#9B111E] rounded-full shadow-[0_1px_3px_rgba(155,17,30,0.2)]"
                       transition={{ type: "spring", stiffness: 450, damping: 32 }}
                     />
                   )}
@@ -168,7 +193,7 @@ export default function Navbar({ onOpenProspectus }: NavbarProps) {
                   {!isActive && isHovered && (
                     <motion.div
                       layoutId="navHoverUnderline"
-                      className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-[#9B111E]/40 rounded-full"
+                      className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-[#9B111E]/30 rounded-full"
                       transition={{ type: "spring", stiffness: 400, damping: 30 }}
                     />
                   )}
@@ -177,23 +202,105 @@ export default function Navbar({ onOpenProspectus }: NavbarProps) {
             })}
           </div>
 
-          {/* Action CTAs */}
-          <div className="hidden sm:flex items-center gap-3">
-            {onOpenProspectus && (
+          {/* Action CTAs: Parent Portal / Sign In + Enrol Now */}
+          <div className="hidden sm:flex items-center gap-3 shrink-0">
+            {/* If Authenticated: Parent Portal Dropdown / Quick Launch */}
+            {isAuthenticated && user ? (
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  type="button"
+                  onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-stone-200 bg-stone-50 hover:bg-stone-100 text-stone-800 text-xs font-semibold transition-all cursor-pointer shadow-2xs"
+                >
+                  <div className="w-5 h-5 rounded-full bg-[#9B111E] text-white flex items-center justify-center text-[10px] font-bold">
+                    {user.name.charAt(0)}
+                  </div>
+                  <span className="max-w-[120px] truncate">{user.name.split(" ")[0]}</span>
+                  {activeChild && (
+                    <span className="text-[10px] text-stone-500 font-normal">
+                      ({activeChild.name.split(" ")[0]})
+                    </span>
+                  )}
+                  <ChevronDown className="w-3.5 h-3.5 text-stone-500" />
+                </button>
+
+                {/* Dropdown Menu */}
+                <AnimatePresence>
+                  {userDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-stone-200 py-2 z-50 text-xs"
+                    >
+                      <div className="px-4 py-2 border-b border-stone-100">
+                        <div className="font-semibold text-stone-900 truncate">{user.name}</div>
+                        <div className="text-[11px] text-stone-500 truncate">{user.email}</div>
+                      </div>
+
+                      <div className="py-1">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setUserDropdownOpen(false);
+                            openPortalView();
+                          }}
+                          className="w-full px-4 py-2 text-left font-semibold text-[#9B111E] hover:bg-[#9B111E]/5 flex items-center gap-2 cursor-pointer"
+                        >
+                          <LayoutDashboard className="w-3.5 h-3.5 text-[#9B111E]" />
+                          <span>Open Parent Portal</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setUserDropdownOpen(false);
+                            openChildOnboarding();
+                          }}
+                          className="w-full px-4 py-2 text-left text-stone-700 hover:bg-stone-50 flex items-center gap-2 cursor-pointer"
+                        >
+                          <Plus className="w-3.5 h-3.5 text-stone-500" />
+                          <span>Add Sibling / Link Pupil</span>
+                        </button>
+                      </div>
+
+                      <div className="border-t border-stone-100 pt-1">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setUserDropdownOpen(false);
+                            logout();
+                          }}
+                          className="w-full px-4 py-2 text-left text-stone-500 hover:text-red-700 hover:bg-red-50 flex items-center gap-2 cursor-pointer"
+                        >
+                          <LogOut className="w-3.5 h-3.5" />
+                          <span>Sign Out</span>
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              /* If Unauthenticated: Seamless Parent Portal Button */
               <button
-                onClick={onOpenProspectus}
-                className="inline-flex items-center gap-1.5 text-stone-700 hover:text-[#9B111E] font-medium text-xs px-3 py-2 rounded-lg hover:bg-[#9B111E]/5 transition-colors cursor-pointer"
+                type="button"
+                onClick={() => openAuthModal("signin")}
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full border border-stone-300 text-stone-700 hover:text-[#9B111E] hover:border-[#9B111E]/40 hover:bg-[#9B111E]/5 font-semibold text-xs transition-all cursor-pointer"
               >
-                <Download className="w-3.5 h-3.5 text-[#9B111E]" />
-                <span>Prospectus</span>
+                <LogIn className="w-3.5 h-3.5 text-[#9B111E]" />
+                <span>Parent Portal</span>
               </button>
             )}
 
+            {/* Primary Action Button: Enrol Now */}
             <motion.a
               whileHover={{ scale: 1.02, y: -1 }}
               whileTap={{ scale: 0.97 }}
               href="#inquiry-form"
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-[#9B111E] text-white hover:bg-[#B3192B] shadow-xs hover:shadow-sm transition-all group"
+              onClick={(e) => handleNavClick(e, "#inquiry-form")}
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-[#9B111E] text-white hover:bg-[#B3192B] shadow-xs hover:shadow-sm transition-all group cursor-pointer"
             >
               <span>Enrol Now</span>
               <ArrowRight className="w-3.5 h-3.5 text-[#F5B82E] transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -202,15 +309,25 @@ export default function Navbar({ onOpenProspectus }: NavbarProps) {
 
           {/* Mobile Menu Toggle Button */}
           <div className="flex lg:hidden items-center gap-2">
+            {!isAuthenticated && (
+              <button
+                type="button"
+                onClick={() => openAuthModal("signin")}
+                className="px-3 py-1.5 rounded-full text-xs font-semibold border border-stone-300 text-stone-700 active:scale-95 transition-transform"
+              >
+                Sign In
+              </button>
+            )}
             <a
               href="#inquiry-form"
-              className="sm:hidden px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#9B111E] text-white active:scale-95 transition-transform"
+              onClick={(e) => handleNavClick(e, "#inquiry-form")}
+              className="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#9B111E] text-white active:scale-95 transition-transform"
             >
               Enrol
             </a>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-stone-700 hover:text-stone-950 focus:outline-none rounded-lg"
+              className="p-2 text-stone-700 hover:text-stone-950 focus:outline-none rounded-lg cursor-pointer"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -218,7 +335,7 @@ export default function Navbar({ onOpenProspectus }: NavbarProps) {
           </div>
         </div>
 
-        {/* Mobile Dropdown Menu with Clean Transition */}
+        {/* Mobile Navigation Drawer */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
@@ -226,9 +343,9 @@ export default function Navbar({ onOpenProspectus }: NavbarProps) {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.25, ease: "easeInOut" }}
-              className="lg:hidden border-t border-stone-200 px-5 pt-3 pb-6 bg-white space-y-3 shadow-lg overflow-hidden"
+              className="lg:hidden border-t border-stone-200 bg-white px-4 pt-3 pb-6 shadow-xl"
             >
-              <div className="space-y-1">
+              <div className="space-y-1 mb-4">
                 {navLinks.map((link) => {
                   const targetId = link.href.replace("#", "");
                   const isActive = activeSection === targetId;
@@ -257,31 +374,50 @@ export default function Navbar({ onOpenProspectus }: NavbarProps) {
                   );
                 })}
               </div>
+
               <div className="pt-3 border-t border-stone-100 flex flex-col gap-2">
-                {onOpenProspectus && (
+                {/* Mobile Portal / Account Trigger */}
+                {isAuthenticated ? (
                   <button
+                    type="button"
                     onClick={() => {
                       setMobileMenuOpen(false);
-                      onOpenProspectus();
+                      openPortalView();
                     }}
-                    className="w-full text-center py-2.5 rounded-full font-medium text-sm text-stone-800 bg-stone-100 hover:bg-stone-200 transition-colors flex items-center justify-center gap-2"
+                    className="w-full text-center py-2.5 rounded-full font-semibold text-sm bg-stone-900 text-white flex items-center justify-center gap-2 cursor-pointer shadow-xs"
                   >
-                    <Download className="w-4 h-4 text-[#9B111E]" />
-                    <span>Download 2026/27 Prospectus</span>
+                    <LayoutDashboard className="w-4 h-4 text-[#F5B82E]" />
+                    <span>Open Parent Portal ({user?.name.split(" ")[0]})</span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      openAuthModal("signin");
+                    }}
+                    className="w-full text-center py-2.5 rounded-full font-semibold text-sm border border-stone-300 text-stone-800 hover:bg-stone-50 flex items-center justify-center gap-2 cursor-pointer shadow-2xs"
+                  >
+                    <LogIn className="w-4 h-4 text-[#9B111E]" />
+                    <span>Parent Portal Sign In / Register</span>
                   </button>
                 )}
+
                 <a
                   href="#inquiry-form"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="w-full text-center py-3 rounded-full font-semibold text-sm bg-[#9B111E] text-white active:scale-98 transition-all"
+                  onClick={(e) => {
+                    setMobileMenuOpen(false);
+                    handleNavClick(e, "#inquiry-form");
+                  }}
+                  className="w-full text-center py-3 rounded-full font-semibold text-sm bg-[#9B111E] text-white active:scale-98 transition-all shadow-sm cursor-pointer"
                 >
-                  Book Free Diagnostic Call
+                  Book Free Diagnostic & Consultation
                 </a>
                 <a
                   href="tel:+447768639106"
                   className="w-full text-center py-2 text-xs text-stone-600 hover:text-stone-900"
                 >
-                  Call +44 7768 639106
+                  Admissions Hotline: +44 7768 639106
                 </a>
               </div>
             </motion.div>

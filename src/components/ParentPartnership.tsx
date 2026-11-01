@@ -42,7 +42,7 @@ export default function ParentPartnership() {
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#9B111E]/10 text-[#9B111E] text-xs font-bold uppercase tracking-wider">
             <HeartHandshake className="w-3.5 h-3.5" />
-            <span>Parent Community & Pastoral Care</span>
+            <span>Verified Parent Reviews & Community</span>
           </div>
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-stone-900 tracking-tight">
             Trusted by Families Across the United Kingdom

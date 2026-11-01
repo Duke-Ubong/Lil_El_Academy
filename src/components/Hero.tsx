@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import { ArrowRight, Check, Users, Sparkles, GraduationCap, ChevronRight, BookOpen, Star, ShieldCheck, Award, Download, Play, Calendar } from "lucide-react";
+import { ArrowRight, Check, Users, Sparkles, GraduationCap, ChevronRight, BookOpen, Star, ShieldCheck, Award, Play, Calendar } from "lucide-react";
 import { motion, AnimatePresence, type Variants } from "motion/react";
 import { IMAGES } from "../assets/images/index";
-
-interface HeroProps {
-  onOpenProspectus?: () => void;
-}
 
 const previewCohorts = [
   {
@@ -72,7 +68,7 @@ const itemVariants: Variants = {
   },
 };
 
-export default function Hero({ onOpenProspectus }: HeroProps) {
+export default function Hero() {
   const [selectedCohort, setSelectedCohort] = useState<string>("gcse");
   const activeCohort = previewCohorts.find((c) => c.id === selectedCohort) || previewCohorts[0];
 
@@ -152,29 +148,16 @@ export default function Hero({ onOpenProspectus }: HeroProps) {
                 <ArrowRight className="w-4 h-4 text-[#F5B82E] transition-transform duration-300 group-hover:translate-x-1" />
               </motion.a>
 
-              {onOpenProspectus ? (
-                <motion.button
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ duration: 0.15 }}
-                  onClick={onOpenProspectus}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-base font-medium text-stone-800 hover:text-stone-950 bg-stone-100 hover:bg-stone-200/90 border border-stone-300 transition-all text-center"
-                >
-                  <Download className="w-4 h-4 text-[#9B111E]" />
-                  <span>Download 2026 Prospectus</span>
-                </motion.button>
-              ) : (
-                <motion.a
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ duration: 0.15 }}
-                  href="#how-it-works"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-base font-medium text-stone-800 hover:text-stone-950 bg-stone-100 hover:bg-stone-200/90 border border-stone-300 transition-all text-center"
-                >
-                  <Play className="w-4 h-4 text-[#9B111E]" />
-                  <span>See How Online Works</span>
-                </motion.a>
-              )}
+              <motion.a
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.15 }}
+                href="#how-it-works"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-base font-medium text-stone-800 hover:text-stone-950 bg-stone-100 hover:bg-stone-200/90 border border-stone-300 transition-all text-center cursor-pointer shadow-xs hover:shadow-sm"
+              >
+                <Play className="w-4 h-4 text-[#9B111E]" />
+                <span>See How Online Works</span>
+              </motion.a>
             </motion.div>
 
             {/* Quiet reassurance text */}

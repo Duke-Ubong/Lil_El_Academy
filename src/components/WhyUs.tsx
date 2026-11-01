@@ -33,7 +33,7 @@ export default function WhyUs() {
   ];
 
   return (
-    <section id="why-us" className="py-16 sm:py-24 bg-[#FAF9F6] border-b border-stone-200 overflow-hidden">
+    <section id="why-us" className="scroll-mt-24 py-16 sm:py-24 bg-[#FAF9F6] border-b border-stone-200 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header with Scroll InView */}
@@ -45,7 +45,7 @@ export default function WhyUs() {
           className="max-w-3xl mb-12"
         >
           <div className="text-xs font-bold uppercase tracking-wider text-[#9B111E] mb-2">
-            The Lil-El Distinction
+            Why Lil-El · The Distinction
           </div>
           <h2 className="font-heading text-3xl sm:text-4xl font-bold text-stone-900 tracking-tight">
             Designed Around How Children Actually Learn

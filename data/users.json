@@ -1,0 +1,74 @@
+[
+  {
+    "id": "parent-demo-1",
+    "name": "Dr. Hannah Adams",
+    "email": "dr.hannah.adams@example.co.uk",
+    "passwordHash": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
+    "phone": "+44 7700 900142",
+    "provider": "email",
+    "role": "parent",
+    "createdAt": "2026-09-01T10:00:00.000Z",
+    "children": [
+      {
+        "id": "child-joshua-1",
+        "name": "Joshua Adams",
+        "gender": "male",
+        "yearGroup": "Year 10 (KS4 GCSE Priority)",
+        "keyStage": "KS4",
+        "coreSubjects": [
+          "Higher GCSE Mathematics",
+          "English Language & Literature",
+          "Combined / Triple Sciences"
+        ],
+        "academicGoal": "Higher Tier Target Grades 8 / 9",
+        "enrolledSince": "September 2026",
+        "cohortSize": "Max 4–5 Students (1:4/5 ratio)",
+        "diagnosticRef": "LE-948210",
+        "avatarColor": "#9B111E"
+      },
+      {
+        "id": "child-ruth-2",
+        "name": "Ruth Adams",
+        "gender": "female",
+        "yearGroup": "Year 6 (KS2 SATs Preparation)",
+        "keyStage": "KS2",
+        "coreSubjects": [
+          "SATs Mathematics Reasoning",
+          "Reading Comprehension & SPaG",
+          "Core Sciences"
+        ],
+        "academicGoal": "Working at Greater Depth (110+ Scaled Score)",
+        "enrolledSince": "October 2026",
+        "cohortSize": "Max 4–5 Students (1:4/5 ratio)",
+        "diagnosticRef": "LE-948211",
+        "avatarColor": "#D4AF37"
+      },
+      {
+        "id": "child-ad68d37d-9bc3-46de-b1fb-e581cd00a9f6",
+        "name": "Ezekiel Adams",
+        "gender": "male",
+        "yearGroup": "Year 8 (KS3 Foundation)",
+        "keyStage": "KS3",
+        "coreSubjects": [
+          "Foundation Mathematics",
+          "English Writing",
+          "Science Fundamentals"
+        ],
+        "academicGoal": "Preparation for GCSE Transition",
+        "enrolledSince": "November 2026",
+        "cohortSize": "Max 4–5 Students (1:4/5 ratio)",
+        "diagnosticRef": "LE-ONB-9982",
+        "avatarColor": "#163A24"
+      }
+    ]
+  },
+  {
+    "id": "parent-608bea5f-9a60-4209-85c6-8f6229e0079f",
+    "name": "Mr. Peter Robinson",
+    "email": "peter.robinson@gmail.com",
+    "provider": "google",
+    "role": "parent",
+    "createdAt": "2026-11-01T17:44:57.382Z",
+    "children": []
+  }
+]

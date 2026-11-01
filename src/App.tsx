@@ -1,75 +1,81 @@
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import VirtualClassroomShowcase from "./components/VirtualClassroomShowcase";
 import Curriculum from "./components/Curriculum";
 import Year10Intervention from "./components/Year10Intervention";
 import DiagnosticCalculator from "./components/DiagnosticCalculator";
-import AboutUs from "./components/AboutUs";
 import WhyUs from "./components/WhyUs";
-import AdmissionTracker from "./components/AdmissionTracker";
 import ParentPartnership from "./components/ParentPartnership";
+import AdmissionTracker from "./components/AdmissionTracker";
 import ParentInquiryForm from "./components/ParentInquiryForm";
 import Footer from "./components/Footer";
-import ProspectusModal from "./components/ProspectusModal";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import AuthModal from "./components/auth/AuthModal";
+import ChildOnboardingModal from "./components/portal/ChildOnboardingModal";
+import ParentDashboard from "./components/portal/ParentDashboard";
 
-export default function App() {
-  const [isProspectusOpen, setIsProspectusOpen] = useState(false);
-
-  const handleOpenProspectus = () => {
-    setIsProspectusOpen(true);
-  };
-
-  const handleCloseProspectus = () => {
-    setIsProspectusOpen(false);
-  };
+function MainAppContent() {
+  const { isPortalViewActive } = useAuth();
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF9F6] text-stone-900 selection:bg-[#9B111E] selection:text-white">
-      {/* 1. King's InterHigh-style Top Contact Strip & Sticky Navigation */}
-      <Navbar onOpenProspectus={handleOpenProspectus} />
+      {/* Seamless Auth Modal (Google 1-Click + Password) */}
+      <AuthModal />
 
-      {/* Main Page Flow */}
-      <main className="flex-grow">
-        {/* 2. Hero: World-Class British Online Education, Real Student Imagery & Accreditation Bar */}
-        <Hero onOpenProspectus={handleOpenProspectus} />
+      {/* Post-Registration Child Onboarding Wizard */}
+      <ChildOnboardingModal />
 
-        {/* 3. How Online Learning Works: Virtual Classroom Interactive Showcase */}
-        <VirtualClassroomShowcase />
+      {/* Main View: Dedicated Parent Portal Dashboard OR Public Academic Showcase */}
+      {isPortalViewActive ? (
+        <ParentDashboard />
+      ) : (
+        <>
+          {/* 1. Sleek Navigation Bar with Chronologically Tallied Links & Parent Portal Launcher */}
+          <Navbar />
 
-        {/* 4. Curriculum & Key Stages: KS1 to KS4 with Stage Imagery & Syllabus Modals */}
-        <Curriculum />
+          {/* Main Page Flow - Organized Chronologically & Easy to Navigate */}
+          <main className="flex-grow">
+            {/* 2. Hero: British Online Education, Christian Ethos & 1:4/5 Micro-Cohort Standard */}
+            <Hero />
 
-        {/* 5. Signature Focus: Year 10 Early GCSE Intervention & Higher Tier Protection */}
-        <Year10Intervention />
+            {/* 3. How Online Learning Works: Interactive Virtual Classroom Showcase (id="how-it-works") */}
+            <VirtualClassroomShowcase />
 
-        {/* 6. Transparent Planning: Tuition Fee Calculator & Grade Pathway Simulator */}
-        <DiagnosticCalculator />
+            {/* 4. Curriculum & Key Stages: KS1 to KS4 with Interactive Syllabi (id="curriculum") */}
+            <Curriculum />
 
-        {/* 7. Institutional Ethos: Vision, Mission & 4 Commitments */}
-        <AboutUs />
+            {/* 5. Signature Focus: Year 10 Early GCSE Intervention (id="year10") */}
+            <Year10Intervention />
 
-        {/* 8. The Lil-El Distinction: Strict 1:4/5 Cohort vs Mainstream 30+ Classrooms */}
-        <WhyUs />
+            {/* 6. Academic Study Planner: Study Plan & Grade Attainment Simulator (id="study-plan") */}
+            <DiagnosticCalculator />
 
-        {/* 9. Parent Community & Pastoral Care: Verified Reviews & Partnership */}
-        <ParentPartnership />
+            {/* 7. The Lil-El Distinction: Why Lil-El, 1:4/5 vs Mainstream Classrooms (id="why-us") */}
+            <WhyUs />
 
-        {/* 10. Admissions Pathway: 4-Step Interactive Progression */}
-        <AdmissionTracker />
+            {/* 8. Parent Community & Reviews: Verified Testimonials & Pastoral Care (id="partnership") */}
+            <ParentPartnership />
 
-        {/* 11. Parent Registration / Inquiry Form with Zod Validation */}
-        <ParentInquiryForm />
-      </main>
+            {/* 9. Admissions Pathway: 4-Step Interactive Journey (id="admissions") */}
+            <AdmissionTracker />
 
-      {/* 12. Refined Academic Footer */}
-      <Footer onOpenProspectus={handleOpenProspectus} />
+            {/* 10. Direct Admissions Office & Diagnostic Registration Form (id="inquiry-form") */}
+            <ParentInquiryForm />
+          </main>
 
-      {/* 13. Interactive Academic Prospectus Modal */}
-      <ProspectusModal
-        isOpen={isProspectusOpen}
-        onClose={handleCloseProspectus}
-      />
+          {/* 11. Refined Academic Footer */}
+          <Footer />
+        </>
+      )}
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <MainAppContent />
+    </AuthProvider>
   );
 }

@@ -13,6 +13,8 @@ dotenv.config({ path: ".env.local", override: true });
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+import crypto from "crypto";
+
 interface InquiryRecord {
   id: string;
   date: string;
@@ -28,9 +30,118 @@ interface InquiryRecord {
   diagnosticNotice?: string;
 }
 
+export interface StoredChild {
+  id: string;
+  name: string;
+  gender?: "male" | "female" | "other";
+  yearGroup: string;
+  keyStage: string;
+  coreSubjects: string[];
+  academicGoal: string;
+  enrolledSince: string;
+  cohortSize: string;
+  diagnosticRef?: string;
+  avatarColor: string;
+}
+
+export interface StoredUser {
+  id: string;
+  name: string;
+  email: string;
+  passwordHash?: string;
+  phone?: string;
+  provider: "email" | "google";
+  avatarUrl?: string;
+  role: "parent";
+  createdAt: string;
+  children: StoredChild[];
+}
+
 // Durable local file persistence for development & preview
 const DATA_DIR = path.join(process.cwd(), "data");
 const INQUIRIES_FILE = path.join(DATA_DIR, "inquiries.json");
+const USERS_FILE = path.join(DATA_DIR, "users.json");
+
+// Active session token mapping: token -> userId
+const sessions = new Map<string, string>();
+
+function hashPassword(password: string): string {
+  return crypto.createHash("sha256").update(password).digest("hex");
+}
+
+function getInitialSeedUsers(): StoredUser[] {
+  return [
+    {
+      id: "parent-demo-1",
+      name: "Dr. Hannah Adams",
+      email: "dr.hannah.adams@example.co.uk",
+      passwordHash: hashPassword("password123"),
+      phone: "+44 7700 900142",
+      provider: "email",
+      role: "parent",
+      createdAt: "2026-09-01T10:00:00.000Z",
+      children: [
+        {
+          id: "child-joshua-1",
+          name: "Joshua Adams",
+          gender: "male",
+          yearGroup: "Year 10 (KS4 GCSE Priority)",
+          keyStage: "KS4",
+          coreSubjects: ["Higher GCSE Mathematics", "English Language & Literature", "Combined / Triple Sciences"],
+          academicGoal: "Higher Tier Target Grades 8 / 9",
+          enrolledSince: "September 2026",
+          cohortSize: "Max 4–5 Students (1:4/5 ratio)",
+          diagnosticRef: "LE-948210",
+          avatarColor: "#9B111E",
+        },
+        {
+          id: "child-ruth-2",
+          name: "Ruth Adams",
+          gender: "female",
+          yearGroup: "Year 6 (KS2 SATs Preparation)",
+          keyStage: "KS2",
+          coreSubjects: ["SATs Mathematics Reasoning", "Reading Comprehension & SPaG", "Core Sciences"],
+          academicGoal: "Working at Greater Depth (110+ Scaled Score)",
+          enrolledSince: "October 2026",
+          cohortSize: "Max 4–5 Students (1:4/5 ratio)",
+          diagnosticRef: "LE-948211",
+          avatarColor: "#D4AF37",
+        },
+      ],
+    },
+  ];
+}
+
+function getStoredUsers(): StoredUser[] {
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    if (fs.existsSync(USERS_FILE)) {
+      const raw = fs.readFileSync(USERS_FILE, "utf-8");
+      const users: StoredUser[] = JSON.parse(raw);
+      if (Array.isArray(users) && users.length > 0) {
+        return users;
+      }
+    }
+  } catch (err) {
+    console.warn("Could not read users file from disk, using seed users:", err);
+  }
+  const seed = getInitialSeedUsers();
+  persistUsers(seed);
+  return seed;
+}
+
+function persistUsers(users: StoredUser[]) {
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), "utf-8");
+  } catch (err) {
+    console.warn("Could not persist users to disk:", err);
+  }
+}
 
 function getStoredInquiries(): InquiryRecord[] {
   try {
@@ -393,6 +504,422 @@ Website: https://www.lilelacademy.com
           : undefined,
       });
     }
+  });
+
+  // Helper: Extract current authenticated user from request
+  function getAuthenticatedUser(req: express.Request): StoredUser | null {
+    const authHeader = req.headers.authorization;
+    let token = "";
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      token = authHeader.substring(7).trim();
+    } else if (req.query.token && typeof req.query.token === "string") {
+      token = req.query.token.trim();
+    } else if (req.body?.token && typeof req.body.token === "string") {
+      token = req.body.token.trim();
+    }
+
+    if (!token) return null;
+    const userId = sessions.get(token);
+    if (!userId) return null;
+
+    const users = getStoredUsers();
+    return users.find((u) => u.id === userId) || null;
+  }
+
+  // API: Parent Registration (Email + Password)
+  app.post("/api/auth/register", (req, res) => {
+    try {
+      const { name, email, password, phone } = req.body;
+
+      if (!name?.trim() || !email?.trim() || !password?.trim()) {
+        return res.status(400).json({
+          success: false,
+          error: "Please provide your full name, email address, and a secure password.",
+        });
+      }
+
+      if (password.length < 6) {
+        return res.status(400).json({
+          success: false,
+          error: "Password must be at least 6 characters long.",
+        });
+      }
+
+      const emailClean = email.trim().toLowerCase();
+      const users = getStoredUsers();
+
+      if (users.some((u) => u.email.toLowerCase() === emailClean)) {
+        return res.status(400).json({
+          success: false,
+          error: "An account with this email address already exists. Please sign in instead.",
+        });
+      }
+
+      const newUser: StoredUser = {
+        id: `parent-${crypto.randomUUID()}`,
+        name: name.trim(),
+        email: emailClean,
+        passwordHash: hashPassword(password),
+        phone: phone?.trim() || undefined,
+        provider: "email",
+        role: "parent",
+        createdAt: new Date().toISOString(),
+        children: [],
+      };
+
+      users.push(newUser);
+      persistUsers(users);
+
+      const token = crypto.randomUUID();
+      sessions.set(token, newUser.id);
+
+      // Return user without passwordHash
+      const { passwordHash: _, ...safeUser } = newUser;
+      return res.json({
+        success: true,
+        user: safeUser,
+        children: newUser.children,
+        token,
+        message: "Account created successfully. Welcome to Lil-El Academy!",
+      });
+    } catch (err: unknown) {
+      console.error("Registration error:", err);
+      return res.status(500).json({ success: false, error: "An unexpected error occurred during registration." });
+    }
+  });
+
+  // API: Parent Login (Email + Password)
+  app.post("/api/auth/login", (req, res) => {
+    try {
+      const { email, password } = req.body;
+
+      if (!email?.trim() || !password?.trim()) {
+        return res.status(400).json({
+          success: false,
+          error: "Please enter both your email address and password.",
+        });
+      }
+
+      const emailClean = email.trim().toLowerCase();
+      const users = getStoredUsers();
+      const user = users.find((u) => u.email.toLowerCase() === emailClean);
+
+      if (!user) {
+        return res.status(401).json({
+          success: false,
+          error: "Invalid email or password. Please verify your credentials or create a new account.",
+        });
+      }
+
+      if (user.passwordHash && user.passwordHash !== hashPassword(password)) {
+        return res.status(401).json({
+          success: false,
+          error: "Invalid email or password. Please verify your password.",
+        });
+      }
+
+      const token = crypto.randomUUID();
+      sessions.set(token, user.id);
+
+      const { passwordHash: _, ...safeUser } = user;
+      return res.json({
+        success: true,
+        user: safeUser,
+        children: user.children,
+        token,
+        message: "Welcome back to Lil-El Academy Parent Portal.",
+      });
+    } catch (err: unknown) {
+      console.error("Login error:", err);
+      return res.status(500).json({ success: false, error: "An unexpected error occurred during login." });
+    }
+  });
+
+  // API: Google One-Click Sign-In
+  app.post("/api/auth/google", (req, res) => {
+    try {
+      const { email, name, avatarUrl } = req.body;
+
+      if (!email?.trim() || !name?.trim()) {
+        return res.status(400).json({
+          success: false,
+          error: "Google authentication payload missing required profile details.",
+        });
+      }
+
+      const emailClean = email.trim().toLowerCase();
+      const users = getStoredUsers();
+      let user = users.find((u) => u.email.toLowerCase() === emailClean);
+
+      if (!user) {
+        // Create new account via Google
+        user = {
+          id: `parent-${crypto.randomUUID()}`,
+          name: name.trim(),
+          email: emailClean,
+          provider: "google",
+          avatarUrl: avatarUrl || undefined,
+          role: "parent",
+          createdAt: new Date().toISOString(),
+          children: [],
+        };
+        users.push(user);
+        persistUsers(users);
+      } else if (!user.avatarUrl && avatarUrl) {
+        user.avatarUrl = avatarUrl;
+        persistUsers(users);
+      }
+
+      const token = crypto.randomUUID();
+      sessions.set(token, user.id);
+
+      const { passwordHash: _, ...safeUser } = user;
+      return res.json({
+        success: true,
+        user: safeUser,
+        children: user.children,
+        token,
+        message: "Google sign-in successful.",
+      });
+    } catch (err: unknown) {
+      console.error("Google auth error:", err);
+      return res.status(500).json({ success: false, error: "Google authentication failed." });
+    }
+  });
+
+  // API: Get Current Authenticated User Session
+  app.get("/api/auth/me", (req, res) => {
+    const user = getAuthenticatedUser(req);
+    if (!user) {
+      return res.status(401).json({ success: false, error: "Not authenticated or session expired." });
+    }
+
+    const { passwordHash: _, ...safeUser } = user;
+    return res.json({
+      success: true,
+      user: safeUser,
+      children: user.children,
+    });
+  });
+
+  // API: Logout
+  app.post("/api/auth/logout", (req, res) => {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      const token = authHeader.substring(7).trim();
+      sessions.delete(token);
+    }
+    return res.json({ success: true, message: "Logged out successfully." });
+  });
+
+  // API: Add or Link Child Profile (Child Onboarding Wizard)
+  app.post("/api/portal/children", (req, res) => {
+    try {
+      const user = getAuthenticatedUser(req);
+      if (!user) {
+        return res.status(401).json({ success: false, error: "Authentication required to add a child." });
+      }
+
+      const { name, gender, yearGroup, keyStage, coreSubjects, academicGoal, diagnosticRef } = req.body;
+
+      if (!name?.trim() || !yearGroup?.trim()) {
+        return res.status(400).json({
+          success: false,
+          error: "Please provide your child's full name and Year Group.",
+        });
+      }
+
+      const colors = ["#9B111E", "#D4AF37", "#163A24", "#3B82F6", "#8B5CF6"];
+      const avatarColor = colors[user.children.length % colors.length];
+
+      // Auto-determine keyStage if not supplied
+      let resolvedKeyStage = keyStage || "KS4";
+      if (yearGroup.includes("KS1") || yearGroup.includes("Year 1") || yearGroup.includes("Year 2")) {
+        resolvedKeyStage = "KS1";
+      } else if (yearGroup.includes("KS2") || yearGroup.includes("Year 3") || yearGroup.includes("Year 4") || yearGroup.includes("Year 5") || yearGroup.includes("Year 6")) {
+        resolvedKeyStage = "KS2";
+      } else if (yearGroup.includes("KS3") || yearGroup.includes("Year 7") || yearGroup.includes("Year 8") || yearGroup.includes("Year 9")) {
+        resolvedKeyStage = "KS3";
+      } else {
+        resolvedKeyStage = "KS4";
+      }
+
+      const newChild: StoredChild = {
+        id: `child-${crypto.randomUUID()}`,
+        name: name.trim(),
+        gender: gender || undefined,
+        yearGroup: yearGroup.trim(),
+        keyStage: resolvedKeyStage,
+        coreSubjects: Array.isArray(coreSubjects) && coreSubjects.length > 0 ? coreSubjects : ["Mathematics", "English Literature", "Sciences"],
+        academicGoal: academicGoal?.trim() || "Higher Tier Top Grades & Confidence",
+        enrolledSince: new Date().toLocaleDateString("en-GB", { month: "long", year: "numeric" }),
+        cohortSize: "Max 4–5 Students (1:4/5 ratio)",
+        diagnosticRef: diagnosticRef?.trim() || `LE-${Date.now().toString().slice(-6)}`,
+        avatarColor,
+      };
+
+      const users = getStoredUsers();
+      const currentUserIndex = users.findIndex((u) => u.id === user.id);
+      if (currentUserIndex !== -1) {
+        users[currentUserIndex].children.push(newChild);
+        persistUsers(users);
+      }
+
+      return res.json({
+        success: true,
+        message: `${newChild.name} successfully registered in Lil-El Academy!`,
+        children: users[currentUserIndex]?.children || [newChild],
+        child: newChild,
+      });
+    } catch (err: unknown) {
+      console.error("Add child error:", err);
+      return res.status(500).json({ success: false, error: "Failed to add child profile." });
+    }
+  });
+
+  // API: Parent Dashboard Content (Micro-Cohort schedule, monthly reports, revision vault)
+  app.get("/api/portal/dashboard-data", (req, res) => {
+    const user = getAuthenticatedUser(req);
+    if (!user) {
+      return res.status(401).json({ success: false, error: "Authentication required." });
+    }
+
+    const childId = (req.query.childId as string) || (user.children[0]?.id ?? "");
+    const activeChild = user.children.find((c) => c.id === childId) || user.children[0];
+
+    const isYear10 = activeChild?.yearGroup?.includes("Year 10") || activeChild?.keyStage === "KS4";
+
+    // 1:4/5 ratio live interactive seminars
+    const cohortSessions = [
+      {
+        id: "sess-1",
+        childId,
+        subject: isYear10 ? "GCSE Higher Mathematics" : "Key Stage Mathematics",
+        title: isYear10 ? "Algebraic Proof & Quadratic Sequences (Grade 8/9 Target)" : "Fractions, Decimals & Multi-Step Reasoning",
+        tutorName: "Mr. Samuel Adeyemi, PGCE",
+        tutorBio: "12 yrs Head of Maths, DBS Enhanced, AQA/Edexcel Specialist",
+        dayOfWeek: "Tuesday",
+        timeSlot: "17:30 – 18:45 GMT",
+        meetingUrl: "https://meet.google.com/lil-maths-cohort",
+        cohortCapacity: "4 of 5 Students Enrolled (1:4/5 Ratio)",
+        nextSessionDate: "Tomorrow at 17:30",
+        status: "upcoming",
+      },
+      {
+        id: "sess-2",
+        childId,
+        subject: isYear10 ? "GCSE English Literature & Language" : "English Reading & SPaG",
+        title: isYear10 ? "19th Century Prose & Complex Thesis Construction" : "Reading Inference & Formal Grammatical Mastery",
+        tutorName: "Mrs. Victoria Wright, MA Oxon",
+        tutorBio: "Senior GCSE Examiner, Christian Worldview & Literature",
+        dayOfWeek: "Thursday",
+        timeSlot: "18:00 – 19:15 GMT",
+        meetingUrl: "https://meet.google.com/lil-english-cohort",
+        cohortCapacity: "5 of 5 Students Enrolled (1:4/5 Ratio)",
+        nextSessionDate: "Thursday at 18:00",
+        status: "upcoming",
+      },
+      {
+        id: "sess-3",
+        childId,
+        subject: isYear10 ? "Combined / Triple Science" : "Scientific Foundations",
+        title: isYear10 ? "Cell Biology, Bioenergetics & 6-Mark Exam Structures" : "Ecosystems, Forces & Experimental Method",
+        tutorName: "Dr. David Mensah, PhD",
+        tutorBio: "STEM Educator & University Mentor",
+        dayOfWeek: "Saturday",
+        timeSlot: "10:30 – 11:45 GMT",
+        meetingUrl: "https://meet.google.com/lil-science-cohort",
+        cohortCapacity: "4 of 5 Students Enrolled (1:4/5 Ratio)",
+        nextSessionDate: "Saturday at 10:30",
+        status: "upcoming",
+      },
+    ];
+
+    // Monthly diagnostic reports & quarterly reviews
+    const diagnosticReports = [
+      {
+        id: "rep-oct-2026",
+        childId,
+        monthYear: "October 2026",
+        period: "Monthly Diagnostic Cycle (Weeks 5 – 8)",
+        overallScore: 84,
+        status: "Mastered",
+        topicBreakdown: [
+          { topic: "Higher Tier Algebraic Manipulation", score: 88, benchmark: "Top 5% Cohort", status: "strength" },
+          { topic: "Extended Examiner Mark-Scheme Proofs", score: 82, benchmark: "Grade 8 Threshold", status: "improving" },
+          { topic: "Complex Multi-Step Word Problems", score: 76, benchmark: "Target Focus", status: "focus" },
+          { topic: "Science Data Interpretation", score: 90, benchmark: "Grade 9 Threshold", status: "strength" },
+        ],
+        tutorObservations:
+          "Outstanding vocal contribution during our micro-seminars. Shows remarkable confidence when tackling quadratic proofs on the digital whiteboard. We are targeting multi-step worded problem breakdown for the upcoming month.",
+        nextQuarterlyReviewDate: "18 November 2026 (Online 1-to-1 with Tutor)",
+        downloadUrl: "#",
+      },
+      {
+        id: "rep-sep-2026",
+        childId,
+        monthYear: "September 2026",
+        period: "Baseline Diagnostic Assessment",
+        overallScore: 71,
+        status: "On Track",
+        topicBreakdown: [
+          { topic: "Baseline Topic Knowledge Audit", score: 74, benchmark: "National Average", status: "improving" },
+          { topic: "Exam Timing & Stamina", score: 68, benchmark: "Requires Pacing Drills", status: "focus" },
+        ],
+        tutorObservations:
+          "Baseline assessment pinpointed gap in algebraic notation and question stamina. Excellent engagement and positive attitude toward Christian mentorship.",
+        nextQuarterlyReviewDate: "18 November 2026",
+        downloadUrl: "#",
+      },
+    ];
+
+    // 24/7 Revision vault
+    const revisionVault = [
+      {
+        id: "vlt-1",
+        subject: "Mathematics",
+        yearGroup: activeChild?.yearGroup || "Year 10",
+        topic: "Mastering Algebraic Fractions & Simultaneous Equations",
+        lessonDate: "27 October 2026",
+        durationMinutes: 48,
+        videoUrl: "https://example.com/vault/algebra-fractions",
+        slideDeckUrl: "#",
+        pastPapersCount: 14,
+        tags: ["Higher Tier", "AQA", "Edexcel", "Past Paper Drills"],
+      },
+      {
+        id: "vlt-2",
+        subject: "English",
+        yearGroup: activeChild?.yearGroup || "Year 10",
+        topic: "Unlocking Level 9 Analytical Paragraphs (P.E.E.Z.L Technique)",
+        lessonDate: "22 October 2026",
+        durationMinutes: 42,
+        videoUrl: "https://example.com/vault/english-peezl",
+        slideDeckUrl: "#",
+        pastPapersCount: 8,
+        tags: ["Literature", "Model Answers", "Examiner Notes"],
+      },
+      {
+        id: "vlt-3",
+        subject: "Science",
+        yearGroup: activeChild?.yearGroup || "Year 10",
+        topic: "Photosynthesis, Limiting Factors & 6-Mark Calculations",
+        lessonDate: "19 October 2026",
+        durationMinutes: 45,
+        videoUrl: "https://example.com/vault/biology-photosynthesis",
+        slideDeckUrl: "#",
+        pastPapersCount: 12,
+        tags: ["Biology", "Triple Science", "Practical Questions"],
+      },
+    ];
+
+    return res.json({
+      success: true,
+      child: activeChild,
+      cohortSessions,
+      diagnosticReports,
+      revisionVault,
+    });
   });
 
   // Vite middleware for development

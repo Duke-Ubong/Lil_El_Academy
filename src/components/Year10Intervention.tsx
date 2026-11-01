@@ -40,7 +40,7 @@ export default function Year10Intervention() {
           className="max-w-3xl mb-12"
         >
           <div className="text-xs font-bold uppercase tracking-wider text-[#9B111E] mb-2">
-            Signature Programme
+            Year 10 Focus & Early Intervention
           </div>
           <h2 className="font-heading text-3xl sm:text-4xl font-bold text-stone-900 tracking-tight">
             Year 10 Early GCSE Intervention

@@ -178,6 +178,17 @@ async function startServer() {
   // Middleware
   app.use(express.json());
 
+  // CORS and Preflight handling for Cloud Run previews and cross-origin clients
+  app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    if (req.method === "OPTIONS") {
+      return res.sendStatus(204);
+    }
+    next();
+  });
+
   // Ensure static public assets are served cleanly
   app.use("/assets", express.static(path.join(process.cwd(), "public/assets")));
   app.use("/public/assets", express.static(path.join(process.cwd(), "public/assets")));
